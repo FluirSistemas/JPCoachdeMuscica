@@ -52,6 +52,7 @@ body[data-paleta="b"] {
      3,65:1 sobre blanco, 3,12:1 sobre el crema, 4,52:1 sobre el oscuro. */
   --acento-linea: #BF7500;
   --sombra-foto:  0 18px 50px rgba(28,31,38,.13);
+  --sombra-recorte: 0 10px 22px rgba(28,31,38,.16);
 }
 
 /* A — «la que ya es suya». Sus colores, sobre negro. */
@@ -68,6 +69,7 @@ body[data-paleta="a"] {
   /* sobre negro el ámbar del logo ya da 9,75:1: no hace falta bajarlo */
   --acento-linea: var(--acento);
   --sombra-foto:  0 18px 50px rgba(0,0,0,.6);
+  --sombra-recorte: 0 16px 32px rgba(0,0,0,.5);
 }
 
 /* C — «la del contraste». Azul noche con el ámbar del logo. */
@@ -84,6 +86,7 @@ body[data-paleta="c"] {
   /* sobre el azul noche da 8,47:1: tampoco hace falta bajarlo */
   --acento-linea: var(--acento);
   --sombra-foto:  0 18px 50px rgba(6,10,26,.55);
+  --sombra-recorte: 0 16px 32px rgba(6,10,26,.5);
 }
 
 /* ───────── Base ───────── */
@@ -492,7 +495,10 @@ body[data-paleta="b"] .cabecera__tema .ico-luna { display: block; }
 .hero__foto { position: relative; margin: 0; }
 /* 2/3 es la proporción exacta del archivo: así no se le corta la cabeza */
 /* en celular va cuadrada: a 4/5 medía 425 px y empujaba los datos más abajo */
-.hero__foto img { width: 100%; object-fit: cover; object-position: 50% 15%; aspect-ratio: 1; box-shadow: var(--sombra-foto); }
+/* la foto va recortada, sin el fondo de estudio: la sombra sigue la silueta y no la caja.
+   Es más corta que la de las fotos con caja: con 50 px de desenfoque, en la paleta
+   clara quedaba un halo gris alrededor de JP. */
+.hero__foto img { width: 100%; object-fit: cover; object-position: 50% 15%; aspect-ratio: 1; filter: drop-shadow(var(--sombra-recorte)); }
 @media (min-width: 900px) { .hero__foto img { aspect-ratio: 2/3; object-position: 50% 50%; } }
 /* el marco fino desplazado: el marco rojo vacío que ya usa en Instagram */
 .hero__marco {
@@ -611,8 +617,8 @@ body[data-paleta="b"] .cabecera__tema .ico-luna { display: block; }
   .academia__grilla { grid-template-columns: .85fr 1fr; gap: var(--l); align-items: start; }
 }
 
-/* Los instrumentos van en fila: en columna eran 290 px para cuatro palabras. */
-.instrumentos { margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 6px var(--s); align-content: start; }
+/* Los instrumentos van de a dos: en una columna eran 290 px para cuatro palabras. */
+.instrumentos { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(2, max-content); gap: 6px var(--m); align-content: start; }
 .instrumentos li {
   display: flex; align-items: center; gap: 10px;
   font-family: "Bebas Neue", Impact, sans-serif; font-weight: 400; text-transform: uppercase;

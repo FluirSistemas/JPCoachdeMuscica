@@ -488,7 +488,7 @@
 
   /* ── Formulario plegado en celular ──
      En celular el camino principal es el botón de WhatsApp: el formulario queda
-     detrás de «Prefiero dejar mis datos». En escritorio se ve siempre. */
+     detrás de «Prefiero dejar mi contacto». En escritorio se ve siempre. */
   var abrirFormulario = document.querySelector('[data-abrir-formulario]');
   if (abrirFormulario && form) {
     abrirFormulario.addEventListener('click', function () {
