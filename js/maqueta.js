@@ -475,6 +475,7 @@
           if (valor(c[0])) lineas.push(c[1] + ': ' + valor(c[0]));
         });
       }
+      if (window.medir) window.medir('generate_lead', { metodo: 'formulario_whatsapp', busca: equipo ? 'equipo' : 'clases' });
       var url = 'https://wa.me/5491150458850?text=' + encodeURIComponent(lineas.join('\n'));
       // con 'noopener' window.open devuelve null aunque abra: por eso se corta el opener a mano
       var ventana = window.open(url, '_blank');
