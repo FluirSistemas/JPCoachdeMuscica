@@ -373,6 +373,8 @@
   var estrellitas = document.querySelectorAll('[data-estrellas]');
 
   if ('IntersectionObserver' in window) {
+    // Cuenta apenas asoma: con 0.6, un número a medio asomar en el borde de la
+    // pantalla se quedaba en «0» hasta que se scrolleaba un poco más.
     var ojoNumeros = new IntersectionObserver(function (entradas) {
       entradas.forEach(function (e) {
         if (!e.isIntersecting) return;
@@ -380,7 +382,7 @@
         else animarNumero(e.target);
         ojoNumeros.unobserve(e.target);
       });
-    }, { threshold: 0.6 });
+    }, { threshold: 0.1 });
     Array.prototype.forEach.call(contadores, function (el) {
       if (!quieto) el.textContent = decimalesCero(el);   // arranca en cero, no en el valor
       ojoNumeros.observe(el);
@@ -481,6 +483,20 @@
       var ventana = window.open(url, '_blank');
       if (ventana) ventana.opener = null;
       else location.href = url;
+    });
+  }
+
+  /* ── Formulario plegado en celular ──
+     En celular el camino principal es el botón de WhatsApp: el formulario queda
+     detrás de «Prefiero dejar mis datos». En escritorio se ve siempre. */
+  var abrirFormulario = document.querySelector('[data-abrir-formulario]');
+  if (abrirFormulario && form) {
+    abrirFormulario.addEventListener('click', function () {
+      form.classList.add('esta-abierto');
+      abrirFormulario.setAttribute('aria-expanded', 'true');
+      abrirFormulario.hidden = true;
+      var primero = form.querySelector('input');
+      if (primero) primero.focus();
     });
   }
 

@@ -32,6 +32,8 @@
   --radio: 0px;               /* la esquina viva es la firma */
   --transicion: .28s cubic-bezier(.16,1,.3,1);
 }
+/* En celular 70 px por bloque sumaban más de 1.100 px de aire: baja a 48. */
+@media (max-width: 759px) { :root { --l: 48px; } }
 
 /* B — «la del que entra a una empresa». La de arranque. */
 body[data-paleta="b"] {
@@ -473,7 +475,8 @@ body[data-paleta="b"] .cabecera__tema .ico-luna { display: block; }
   margin: 0; padding: var(--s) 0 0; list-style: none;
   border-top: 1px solid var(--borde);
 }
-@media (min-width: 620px) { .datos-duros { grid-template-columns: repeat(4, 1fr); } }
+/* 2 x 2 también en escritorio: con los cuatro datos del mismo tamaño,
+   «Buenos Aires» no entra en una columna de cuatro y se partía en dos renglones. */
 .datos-duros li { display: flex; flex-direction: column; gap: 2px; }
 .datos-duros b {
   font-family: "Bebas Neue", Impact, sans-serif; font-weight: 400; text-transform: uppercase;
@@ -481,8 +484,6 @@ body[data-paleta="b"] .cabecera__tema .ico-luna { display: block; }
   font-variant-numeric: tabular-nums;
   letter-spacing: -.02em;
 }
-/* el dato largo baja un escalón para que la fila quede pareja */
-.datos-duros li:last-child b { font-size: clamp(16px, 2.2vw, 19px); }
 .datos-duros span {
   font-size: 14px; color: var(--texto-suave); font-stretch: 88%;
   line-height: 1.35; font-weight: 500;
@@ -490,7 +491,8 @@ body[data-paleta="b"] .cabecera__tema .ico-luna { display: block; }
 
 .hero__foto { position: relative; margin: 0; }
 /* 2/3 es la proporción exacta del archivo: así no se le corta la cabeza */
-.hero__foto img { width: 100%; object-fit: cover; object-position: 50% 12%; aspect-ratio: 4/5; box-shadow: var(--sombra-foto); }
+/* en celular va cuadrada: a 4/5 medía 425 px y empujaba los datos más abajo */
+.hero__foto img { width: 100%; object-fit: cover; object-position: 50% 15%; aspect-ratio: 1; box-shadow: var(--sombra-foto); }
 @media (min-width: 900px) { .hero__foto img { aspect-ratio: 2/3; object-position: 50% 50%; } }
 /* el marco fino desplazado: el marco rojo vacío que ya usa en Instagram */
 .hero__marco {
@@ -532,6 +534,11 @@ body[data-paleta="b"] .cabecera__tema .ico-luna { display: block; }
   opacity: .82;
 }
 .clientes__pie { margin: var(--xs) 0 0; font-size: 15px; color: var(--texto-suave); }
+/* En celular la pared de celdas medía 360 px para seis nombres: van corridos. */
+@media (max-width: 619px) {
+  .clientes__fila { display: flex; flex-wrap: wrap; gap: 2px 18px; background: none; border: 0; }
+  .marca-cliente { display: block; min-height: 0; padding: 0; background: none; text-align: left; font-size: 20px; }
+}
 
 /* ───────── 2 · Las dos puertas ───────── */
 
@@ -573,6 +580,10 @@ body[data-paleta="b"] .cabecera__tema .ico-luna { display: block; }
   font-weight: 700; font-size: 15px;
   border-bottom: 2px solid var(--acento); align-self: flex-start;
 }
+@media (max-width: 759px) {
+  .puerta { padding: var(--s) var(--s) var(--xs); gap: 8px; }
+  .puerta__num { display: none; }
+}
 
 /* ───────── Secciones ───────── */
 
@@ -600,11 +611,10 @@ body[data-paleta="b"] .cabecera__tema .ico-luna { display: block; }
   .academia__grilla { grid-template-columns: .85fr 1fr; gap: var(--l); align-items: start; }
 }
 
-.instrumentos { margin: 0; padding: 0; list-style: none; display: grid; gap: 2px; align-content: start; }
+/* Los instrumentos van en fila: en columna eran 290 px para cuatro palabras. */
+.instrumentos { margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 6px var(--s); align-content: start; }
 .instrumentos li {
-  display: flex; align-items: center; gap: var(--xs);
-  padding: var(--xs) 0;
-  border-bottom: 1px solid var(--borde);
+  display: flex; align-items: center; gap: 10px;
   font-family: "Bebas Neue", Impact, sans-serif; font-weight: 400; text-transform: uppercase;
   font-size: clamp(24px, 3.8vw, 32px); letter-spacing: .015em;
 }
@@ -656,7 +666,7 @@ body[data-paleta="b"] .cabecera__tema .ico-luna { display: block; }
 .carrusel__pista > li { flex: 0 0 auto; scroll-snap-align: start; width: min(62%, 260px); }
 @media (min-width: 620px) { .carrusel__pista > li { width: 260px; } }
 /* los de Mercado Libre son apaisados: ocupan más ancho */
-.carrusel--empresas { margin-top: var(--l); }
+.carrusel--empresas { margin-top: var(--s); }
 .carrusel--empresas .carrusel__pista > li { width: min(88%, 520px); }
 
 /* Video vertical, como los reels que él ya hace. Nada carga hasta que le dan
@@ -801,12 +811,22 @@ body[data-paleta="b"] .cabecera__tema .ico-luna { display: block; }
 
 .casos__aviso { margin: var(--s) 0 0; font-size: 14px; color: var(--texto-suave); }
 
-.caso { margin-top: var(--l); }
+/* En celular los carruseles se deslizan con el dedo: las flechas, la fila de
+   nombres y las fotos chicas sólo sumaban alto. */
+@media (max-width: 759px) {
+  .carrusel .carrusel__flechas, .casos .casos__flechas, .casos .casos__nav,
+  .caso-tarjeta .caso-tarjeta__chica { display: none; }
+}
+
+.caso { margin-top: var(--s); }
 .caso__titulo {
-  margin: 0 0 var(--m);
+  margin: 0 0 var(--xs);
   font-family: "Bebas Neue", Impact, sans-serif; font-weight: 400; text-transform: uppercase;
   font-size: clamp(27px, 4.4vw, 38px); letter-spacing: .01em;
 }
+
+.caso__texto { margin: 0 0 var(--xs); max-width: 62ch; color: var(--texto-suave); }
+.caso .caso-tarjeta__dato { margin: 0; }
 
 .etapas { margin: 0 0 var(--m); padding: 0; list-style: none; display: grid; gap: var(--s); counter-reset: e; }
 @media (min-width: 800px) { .etapas { grid-template-columns: repeat(3, 1fr); gap: var(--m); } }
@@ -834,7 +854,7 @@ body[data-paleta="b"] .cabecera__tema .ico-luna { display: block; }
 /* ───────── Qué se hace, en criollo ─────────
    Traducción de la jerga de speaker a tres formatos que se entienden sin saber
    música. Misma escalera de bloques rojo→naranja→amarillo que el resto. */
-.formatos { margin-top: var(--l); }
+.formatos { margin-top: 0; }   /* va pegado a la entrada de Empresas */
 .formatos__titulo {
   margin: 0 0 var(--xs);
   font-family: "Bebas Neue", Impact, sans-serif; font-weight: 400; text-transform: uppercase;
@@ -853,7 +873,7 @@ body[data-paleta="b"] .cabecera__tema .ico-luna { display: block; }
 .formato h4 { margin: 8px 0 6px; font-size: clamp(17px, 2.4vw, 20px); font-weight: 700; }
 .formato p { margin: 0; color: var(--texto-suave); font-size: 16px; }
 
-.formatos__cierre { margin-top: var(--l); }
+.formatos__cierre { margin-top: var(--m); }
 .formatos__mientras { margin: 0 0 var(--xs); font-weight: 700; }
 .formatos__traduccion {
   margin: var(--s) 0 0; max-width: 62ch;
@@ -1015,6 +1035,15 @@ body[data-paleta="b"] .cabecera__tema .ico-luna { display: block; }
 .resena p { margin: 0 0 var(--xs); font-size: 16px; }
 .resena footer { display: grid; gap: 1px; font-size: 14px; }
 .resena footer span { color: var(--texto-suave); }
+/* En celular las reseñas se deslizan: tres en columna eran 540 px. */
+@media (max-width: 799px) {
+  .resenas {
+    display: flex; overflow-x: auto; scroll-snap-type: x mandatory;
+    scrollbar-width: none; overscroll-behavior-x: contain; padding-bottom: var(--xs);
+  }
+  .resenas::-webkit-scrollbar { display: none; }
+  .resena { flex: 0 0 86%; scroll-snap-align: start; }
+}
 
 .nota-resenas { margin: var(--m) 0 0; max-width: 62ch; color: var(--texto-suave); font-size: 15px; }
 
@@ -1084,6 +1113,18 @@ body[data-paleta="b"] .cabecera__tema .ico-luna { display: block; }
 .campos-empresa { display: grid; gap: var(--xs); }
 .campos-empresa[hidden] { display: none; }
 .formulario__aviso { margin: 0; font-size: 13px; color: color-mix(in srgb, var(--texto-claro) 60%, transparent); }
+
+.contacto__abrir { display: none; }
+/* En celular el camino es el botón de WhatsApp: el formulario queda plegado, las
+   redes ya están en el pie y el isotipo decorativo reservaba ~270 px vacíos. */
+@media (max-width: 759px) {
+  .contacto { padding-bottom: var(--l); }
+  .contacto__marca, .contacto .redes { display: none; }
+  .formulario:not(.esta-abierto) { display: none; }
+  .contacto__abrir { display: inline-flex; margin-top: var(--xs); color: var(--texto-claro); border-color: rgba(255,255,255,.45); }
+  .contacto__abrir:hover { background: var(--texto-claro); color: var(--fondo-oscuro); }
+  .contacto__abrir[hidden] { display: none; }
+}
 
 /* Los textos chicos que caen sobre el vúmetro necesitan cuerpo, no color:
    subir el tamaño rinde más que aclararlos, y no rompe la jerarquía. */
