@@ -1,0 +1,10 @@
+# Lo interno de la agencia: no se publica
+LEEME.md
+_ver.html
+servir.py
+Ver maqueta.bat
+.claude/
+
+# Windows
+Thumbs.db
+desktop.ini

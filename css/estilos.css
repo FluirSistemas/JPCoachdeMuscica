@@ -1,0 +1,1176 @@
+/* ═══════════════════════════════════════════════════════════════════════
+   JP COACH DE MÚSICA — maqueta de la landing
+   Concepto: EL VÚMETRO.
+   El isotipo es un monograma JP hecho de bloques cuadrados que suben
+   rojo → naranja → amarillo, como un vúmetro. Ese cuadrado es el único
+   grafismo de la página: viñetas, números, separadores y acentos se
+   construyen con él. Nada de notas musicales.
+   El vúmetro está dos veces, y son el mismo objeto a dos escalas:
+   estirado de fondo en toda la página, y armado como marca —los bloques
+   ecualizando, la letra quieta— en Contacto.
+   El layout es calmo y previsible; la energía vive en esa grilla de
+   bloques, en la fotografía real y en un resalte tipográfico.
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ───────── Paletas. Se cambian con data-paleta en el <body> ───────── */
+
+:root {
+  /* la rampa del logo no cambia nunca: es la marca */
+  /* Los tres DETALLE del brandboard. La caída de amarillo a rojo es,
+     textual del manual, «lee como un ecualizador». */
+  --rojo:     #BC1212;
+  --naranja:  #F16B11;
+  --amarillo: #FFCF41;
+  --carbon:   #222222;   /* ACENTO */
+  --base:     #F6F7FF;   /* BASE  */
+
+  /* escala de espaciado — cinco valores gobiernan todo el ritmo */
+  --xs: 15px;  --s: 25px;  --m: 40px;  --l: 70px;  --xl: 140px;
+
+  --ancho: 1180px;
+  --bloque: 12px;
+  --radio: 0px;               /* la esquina viva es la firma */
+  --transicion: .28s cubic-bezier(.16,1,.3,1);
+}
+
+/* B — «la del que entra a una empresa». La de arranque. */
+body[data-paleta="b"] {
+  --fondo:        #FFFFFF;
+  --fondo-alt:    #F0EDE7;
+  --fondo-oscuro: #1C1F26;
+  --texto:        #1C1F26;
+  --texto-suave:  #565C66;
+  --texto-claro:  #F5F3EF;
+  --borde:        #E2DED6;
+  --acento:       #E08A00;
+  --acento-texto: #1C1F26;
+  /* El ámbar de relleno rinde 6,13:1 con el texto encima, pero como línea
+     fina sobre el crema queda en 2,30:1. Las marcas informativas —estrellas,
+     foco de teclado, subrayados— usan este tono, un escalón más oscuro:
+     3,65:1 sobre blanco, 3,12:1 sobre el crema, 4,52:1 sobre el oscuro. */
+  --acento-linea: #BF7500;
+  --sombra-foto:  0 18px 50px rgba(28,31,38,.13);
+}
+
+/* A — «la que ya es suya». Sus colores, sobre negro. */
+body[data-paleta="a"] {
+  --fondo:        #0F0F0F;
+  --fondo-alt:    #191817;
+  --fondo-oscuro: #000000;
+  --texto:        #F5F3EF;
+  --texto-suave:  #BEB8AD;
+  --texto-claro:  #F5F3EF;
+  --borde:        #2C2926;
+  --acento:       #F2B705;
+  --acento-texto: #0F0F0F;
+  /* sobre negro el ámbar del logo ya da 9,75:1: no hace falta bajarlo */
+  --acento-linea: var(--acento);
+  --sombra-foto:  0 18px 50px rgba(0,0,0,.6);
+}
+
+/* C — «la del contraste». Azul noche con el ámbar del logo. */
+body[data-paleta="c"] {
+  --fondo:        #101A3D;
+  --fondo-alt:    #16224B;
+  --fondo-oscuro: #0A1230;
+  --texto:        #F7F5F1;
+  --texto-suave:  #BECCE9;
+  --texto-claro:  #F7F5F1;
+  --borde:        #24315C;
+  --acento:       #F2B705;
+  --acento-texto: #101A3D;
+  /* sobre el azul noche da 8,47:1: tampoco hace falta bajarlo */
+  --acento-linea: var(--acento);
+  --sombra-foto:  0 18px 50px rgba(6,10,26,.55);
+}
+
+/* ───────── Base ───────── */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; scroll-padding-top: 90px; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+body {
+  margin: 0;
+  background: var(--fondo);
+  color: var(--texto);
+  font-family: Roboto, system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 17px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color var(--transicion), color var(--transicion);
+}
+@media (min-width: 900px) { body { font-size: 18px; } }
+
+img, picture, svg { display: block; max-width: 100%; }
+img { height: auto; }
+
+.contenedor { width: 100%; max-width: var(--ancho); margin-inline: auto; padding-inline: var(--s); }
+@media (min-width: 900px) { .contenedor { padding-inline: var(--m); } }
+
+.oculto-visual {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip-path: inset(50%); white-space: nowrap;
+}
+
+.saltar {
+  position: absolute; left: -9999px; top: 0; z-index: 200;
+  background: var(--acento); color: var(--acento-texto);
+  padding: var(--xs) var(--s); font-weight: 700;
+}
+.saltar:focus { left: var(--s); top: var(--s); }
+
+:where(a, button, input, [tabindex]):focus-visible {
+  outline: 3px solid var(--acento-linea);
+  outline-offset: 3px;
+}
+
+/* ───────── Tipografía ───────── */
+
+.rotulo {
+  margin: 0 0 var(--xs);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  letter-spacing: .16em;
+  color: var(--texto-suave);
+}
+.rotulo--claro { color: var(--amarillo); }
+
+/* el rótulo del hero lleva la rampa del logo delante */
+.rotulo--rampa { display: flex; align-items: center; gap: 8px; }
+.rotulo--rampa::before {
+  content: "";
+  width: 34px; height: var(--bloque);
+  background:
+    linear-gradient(90deg,
+      var(--rojo) 0 33.33%, var(--naranja) 33.33% 66.66%, var(--amarillo) 66.66% 100%);
+}
+
+.titulo {
+  margin: 0 0 var(--s);
+  font-family: "Bebas Neue", Impact, sans-serif;
+  font-weight: 400;
+  text-transform: uppercase;
+  font-size: clamp(34px, 6.4vw, 58px);
+  line-height: .98;
+  letter-spacing: .01em;
+  text-wrap: balance;
+}
+.titulo--claro { color: var(--texto-claro); }
+
+.entrada {
+  margin: 0 0 var(--m);
+  max-width: 62ch;
+  font-size: 1.05em;
+  color: var(--texto-suave);
+}
+
+/* el resalte: bloque relleno con el texto encima.
+   Es el recurso que él ya usa en Instagram — una sola palabra destacada.
+   Regla dura: el ámbar NUNCA es color de texto, siempre es relleno. */
+.resalte {
+  background: var(--acento);
+  color: var(--acento-texto);
+  padding: 0 .18em .06em;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+.enlace {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: var(--acento-linea);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+.enlace:hover { text-decoration-thickness: 4px; }
+
+/* ───────── El bloque: el grafismo rector ───────── */
+
+.bloque {
+  display: inline-block;
+  width: var(--bloque); height: var(--bloque);
+  flex: none;
+}
+.bloque--rojo     { background: var(--rojo); }
+.bloque--naranja  { background: var(--naranja); }
+.bloque--amarillo { background: var(--amarillo); }
+
+/* ───────── Foto de fondo de página ─────────
+   Va en z-index -1: debajo del vúmetro (0) y del contenido (1). O sea que el
+   orden de lectura visual es foto → ecualizador → texto.
+   El velo no "oscurece" a secas: funde la foto hacia el color de fondo de la
+   paleta. En las oscuras eso oscurece; en la clara aclara — que es lo que hace
+   falta para que el texto negro siga leyéndose. La foto queda de textura, no
+   de protagonista. */
+.fondo-foto {
+  position: fixed; inset: 0; z-index: -1;
+  opacity: 0; pointer-events: none;
+  transition: opacity .7s ease;
+}
+.fondo-foto.esta-visible { opacity: 1; }
+.fondo-foto img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 42%; }
+.fondo-foto::after {
+  content: ""; position: absolute; inset: 0;
+  /* Velo bajo: la foto tiene que verse. Se funde hacia el color de la paleta
+     en vez de "oscurecer" a secas — en las oscuras oscurece, en la clara aclara,
+     que es lo que hace falta para que el texto negro siga leyendose. */
+  background:
+    linear-gradient(to bottom,
+      color-mix(in srgb, var(--fondo) 80%, transparent) 0%,
+      color-mix(in srgb, var(--fondo) 62%, transparent) 45%,
+      color-mix(in srgb, var(--fondo) 78%, transparent) 100%);
+}
+/* sobre las paletas oscuras la foto pesa más: se le sube el velo */
+body[data-paleta="a"] .fondo-foto::after,
+body[data-paleta="c"] .fondo-foto::after {
+  background:
+    linear-gradient(to bottom,
+      color-mix(in srgb, var(--fondo) 78%, transparent) 0%,
+      color-mix(in srgb, var(--fondo) 58%, transparent) 45%,
+      color-mix(in srgb, var(--fondo) 76%, transparent) 100%);
+}
+@media (prefers-reduced-motion: reduce) { .fondo-foto { transition: none; } }
+
+/* ───────── El isotipo, en SVG ─────────
+   Vectorizado del brandboard de Canva: 10 módulos cuadrados exactos más las
+   dos formas curvas (la panza de la P y el gancho de la J), trazadas del
+   original. Va inline para poder pintarlo por paleta y animar sus módulos. */
+.iso { display: block; height: auto; }
+.iso--color .m--amarillo { fill: var(--amarillo); }
+.iso--color .m--naranja  { fill: var(--naranja); }
+.iso--color .m--rojo     { fill: var(--rojo); }
+/* monocromo: toma el color del texto. Queda por si hace falta (favicon de una
+   tinta, sello impreso), pero en la página el isotipo va SIEMPRE a color. */
+.iso--mono .m { fill: currentColor; }
+
+
+/* ───────── El vúmetro ─────────
+   El grafismo rector. Es el isotipo desarmado y estirado: columnas del mismo
+   cuadrado, con la misma rampa y en la misma dirección que el logo —la carga
+   sube desde abajo, rojo → naranja → amarillo.
+   Cada columna es una barra con la rampa pintada a altura completa y recortada
+   desde arriba con clip-path. Así, cuando el nivel baja, queda sólo el rojo de
+   abajo: como un vúmetro de verdad, y no como una barra de progreso.
+   Las separaciones entre bloques son una trama fija por encima, así los
+   cuadrados nunca se deforman. */
+
+.vumetro {
+  --vu-bloque: 16px;
+  --vu-aire: 5px;
+  --vu-paso: calc(var(--vu-bloque) + var(--vu-aire));
+  --vu-pasos: 9;
+  --vu-fondo: var(--fondo);
+
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  z-index: 0;
+  display: flex;
+  gap: var(--vu-aire);
+  justify-content: center;
+  height: calc(var(--vu-pasos) * var(--vu-paso) - var(--vu-aire));
+  overflow: hidden;
+  pointer-events: none;
+  opacity: .2;
+  contain: layout paint;
+  /* se disuelve hacia arriba: abajo pisa fuerte y para cuando llega al texto
+     ya no está. Así el fondo se nota sin robarle contraste a la lectura. */
+  -webkit-mask-image: linear-gradient(to top, #000 0 22%, rgba(0,0,0,.55) 55%, transparent 100%);
+          mask-image: linear-gradient(to top, #000 0 22%, rgba(0,0,0,.55) 55%, transparent 100%);
+}
+@media (min-width: 700px) {
+  .vumetro { --vu-bloque: 22px; --vu-aire: 7px; --vu-pasos: 12; }
+}
+/* sobre fondo oscuro la misma tinta rinde más */
+body[data-paleta="a"] .vumetro,
+body[data-paleta="c"] .vumetro { opacity: .26; }
+
+/* todo lo que no sea el fondo va por encima */
+.cabecera, main, .pie, .barra-fija, .saltar { position: relative; z-index: 1; }
+.cabecera { z-index: 100; }
+.barra-fija { z-index: 90; }
+
+.vumetro i {
+  display: block;
+  width: var(--vu-bloque);
+  flex: none;
+  align-self: stretch;
+  background: linear-gradient(to top,
+    var(--rojo)     0 calc(var(--vu-paso) * 4 - var(--vu-aire)),
+    var(--naranja)  calc(var(--vu-paso) * 4 - var(--vu-aire)) calc(var(--vu-paso) * 8 - var(--vu-aire)),
+    var(--amarillo) calc(var(--vu-paso) * 8 - var(--vu-aire)));
+  clip-path: inset(var(--a) 0 0 0);      /* de arranque, quieto */
+}
+.vumetro.esta-visible i {
+  animation: vumetro var(--dur) var(--esp) ease-in-out infinite alternate;
+}
+@keyframes vumetro {
+  from { clip-path: inset(var(--a) 0 0 0); }
+  to   { clip-path: inset(var(--b) 0 0 0); }
+}
+
+/* la trama que corta las columnas en cuadrados: va por encima y no se mueve */
+.vumetro::after {
+  content: "";
+  position: absolute; inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(to top,
+    transparent 0 var(--vu-bloque),
+    var(--vu-fondo) var(--vu-bloque) var(--vu-paso));
+}
+
+/* ───────── Botones ───────── */
+
+.boton {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 15px 26px;
+  border: 2px solid var(--texto);
+  border-radius: var(--radio);
+  background: transparent;
+  color: var(--texto);
+  font: inherit;
+  font-weight: 700;
+  font-size: 16px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color .18s, color .18s, border-color .18s;
+}
+.boton--lleno { background: var(--acento); border-color: var(--acento); color: var(--acento-texto); }
+.boton--lleno:hover { filter: brightness(1.08); }
+.boton--linea:hover { background: var(--texto); color: var(--fondo); }
+.boton--grande { padding: 18px 32px; font-size: 17px; }
+.boton--ancho { width: 100%; justify-content: center; }
+.ico-wa { width: 20px; height: 20px; fill: currentColor; flex: none; }
+
+/* ───────── Cabecera ───────── */
+
+.cabecera {
+  position: sticky; top: 0; z-index: 100;
+  background: color-mix(in srgb, var(--fondo) 88%, transparent);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--borde);
+}
+.cabecera__fila {
+  display: flex; align-items: center; gap: var(--s);
+  min-height: 66px;
+}
+.cabecera__marca { display: flex; align-items: center; gap: 10px; text-decoration: none; color: inherit; }
+.cabecera__iso { width: 38px; height: auto; }   /* da 41px de alto: el minimo del manual */
+.cabecera__nombre { font-size: 15px; font-stretch: 84%; letter-spacing: .01em; }
+.cabecera__nombre b { font-weight: 700; }
+
+.cabecera__nav { display: none; margin-left: auto; gap: var(--s); }
+.cabecera__nav a {
+  color: var(--texto); text-decoration: none; font-size: 15px; font-weight: 500;
+  padding: 4px 0; border-bottom: 2px solid transparent;
+}
+.cabecera__nav a:hover { border-bottom-color: var(--acento); }
+/* Reseñas es lo que la gente mira antes de contratar: va marcado */
+.cabecera__resenas { display: inline-flex; align-items: center; gap: 6px; }
+.cabecera__resenas svg { width: 15px; height: 15px; fill: var(--acento-linea); flex: none; }
+.cabecera__cta { display: none; padding: 10px 18px; font-size: 15px; }
+
+/* Tema claro u oscuro. En celular empuja el menú a la derecha y queda pegado
+   a la hamburguesa; en escritorio va entre la navegación y el botón. */
+.cabecera__tema {
+  margin-left: auto; width: 42px; height: 42px; flex: none;
+  display: grid; place-content: center;
+  background: transparent; border: 1px solid var(--borde); color: var(--texto); cursor: pointer;
+  transition: border-color .18s;
+}
+.cabecera__tema:hover { border-color: var(--acento); }
+.cabecera__tema svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+/* muestra el tema al que se pasa: sol en el oscuro, luna en el claro */
+.cabecera__tema .ico-luna,
+body[data-paleta="b"] .cabecera__tema .ico-sol { display: none; }
+body[data-paleta="b"] .cabecera__tema .ico-luna { display: block; }
+
+.cabecera__menu {
+  margin-left: calc(var(--xs) - var(--s)); width: 42px; height: 42px;
+  display: grid; place-content: center; gap: 5px;
+  background: transparent; border: 1px solid var(--borde); cursor: pointer;
+}
+.cabecera__menu span { display: block; width: 18px; height: 2px; background: var(--texto); }
+.cabecera__movil { border-top: 1px solid var(--borde); padding: var(--xs) var(--s) var(--s); }
+.cabecera__movil[hidden] { display: none; }
+.cabecera__movil a {
+  display: block; padding: 12px 0; color: var(--texto);
+  text-decoration: none; border-bottom: 1px solid var(--borde); font-weight: 600;
+}
+
+/* La navegación completa entra recién desde 1024 px: entre 900 y 1000 los links
+   y el nombre se partían en dos líneas. Abajo de eso va la hamburguesa. */
+@media (min-width: 1024px) {
+  .cabecera__nav { display: flex; }
+  .cabecera__tema { margin-left: 0; }
+  .cabecera__cta { display: inline-flex; }
+  .cabecera__menu, .cabecera__movil { display: none; }
+}
+
+/* ───────── 1 · Hero ───────── */
+
+.hero { padding-top: var(--l); }
+.hero__grilla { display: grid; gap: var(--m); }
+
+/* En celular la foto sube: la cara tiene que llegar antes que la tabla de datos.
+   display:contents disuelve la columna de texto y deja ordenar hijo por hijo. */
+@media (max-width: 899px) {
+  .hero__texto { display: contents; }
+  .hero__grilla { gap: var(--s); }
+  .hero__acciones { margin-bottom: 0; }
+  .hero__foto   { order: 4; margin-top: var(--xs); }
+  .datos-duros  { order: 5; }
+}
+
+@media (min-width: 900px) {
+  .hero { padding-top: 96px; }
+  .hero__grilla { grid-template-columns: 1.05fr .82fr; gap: var(--l); align-items: center; }
+}
+
+.hero__h1 {
+  margin: 0 0 var(--xs);
+  font-family: "Bebas Neue", Impact, sans-serif;
+  font-weight: 400;
+  text-transform: uppercase;
+  font-size: clamp(42px, 7.8vw, 78px);
+  line-height: .94;
+  letter-spacing: .005em;
+  text-wrap: balance;
+}
+/* La negación va sola en su renglón y un punto más apagada: es el saque,
+   no el remate. Lo que tiene que quedar es la segunda parte. */
+.hero__niega {
+  display: block;
+  color: var(--texto-suave);
+  margin-bottom: .18em;
+}
+
+/* Su frase textual del brief. Es la voz media: más grande que el cuerpo,
+   más chica que el titular. Acá vive el "qué hace" completo. */
+.hero__frase {
+  margin: 0 0 var(--s);
+  max-width: 30ch;
+  font-size: clamp(18px, 2.5vw, 22px);
+  line-height: 1.35;
+  font-weight: 500;
+}
+.hero__bajada { margin: 0 0 var(--m); max-width: 54ch; color: var(--texto-suave); }
+.hero__bajada b { color: var(--texto); font-weight: 700; }
+.hero__acciones { display: flex; flex-wrap: wrap; gap: var(--xs); margin-bottom: var(--m); }
+
+.datos-duros {
+  display: grid; grid-template-columns: repeat(2, 1fr);
+  gap: var(--xs) var(--s);
+  margin: 0; padding: var(--s) 0 0; list-style: none;
+  border-top: 1px solid var(--borde);
+}
+@media (min-width: 620px) { .datos-duros { grid-template-columns: repeat(4, 1fr); } }
+.datos-duros li { display: flex; flex-direction: column; gap: 2px; }
+.datos-duros b {
+  font-family: "Bebas Neue", Impact, sans-serif; font-weight: 400; text-transform: uppercase;
+  font-size: clamp(26px, 4.2vw, 34px); line-height: .96;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -.02em;
+}
+/* el dato largo baja un escalón para que la fila quede pareja */
+.datos-duros li:last-child b { font-size: clamp(16px, 2.2vw, 19px); }
+.datos-duros span {
+  font-size: 14px; color: var(--texto-suave); font-stretch: 88%;
+  line-height: 1.35; font-weight: 500;
+}
+
+.hero__foto { position: relative; margin: 0; }
+/* 2/3 es la proporción exacta del archivo: así no se le corta la cabeza */
+.hero__foto img { width: 100%; object-fit: cover; object-position: 50% 12%; aspect-ratio: 4/5; box-shadow: var(--sombra-foto); }
+@media (min-width: 900px) { .hero__foto img { aspect-ratio: 2/3; object-position: 50% 50%; } }
+/* el marco fino desplazado: el marco rojo vacío que ya usa en Instagram */
+.hero__marco {
+  position: absolute; inset: 14px -14px -14px 14px;
+  border: 2px solid var(--acento);
+  z-index: -1;
+}
+
+/* ───────── Franja de clientes ───────── */
+
+.clientes { padding: var(--l) 0 0; }
+.clientes__rotulo {
+  margin: 0 0 var(--xs);
+  font-size: 12px; font-weight: 600; font-stretch: 78%;
+  text-transform: uppercase; letter-spacing: .16em; color: var(--texto-suave);
+}
+/* Franja de marcas. Sin los archivos de logo, los nombres tipografiados en
+   celdas parejas leen como una pared de logos y no como una lista suelta.
+   Cuando lleguen los logos, cada celda los recibe sin tocar el layout. */
+.clientes__fila {
+  display: grid; gap: 1px;
+  grid-template-columns: repeat(2, 1fr);
+  margin: 0; padding: 0; list-style: none;
+  background: var(--borde);
+  border: 1px solid var(--borde);
+}
+@media (min-width: 620px) { .clientes__fila { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 900px) { .clientes__fila { grid-template-columns: repeat(6, 1fr); } }
+
+.marca-cliente {
+  display: grid; place-content: center;
+  min-height: 84px; padding: var(--xs) 10px;
+  background: var(--fondo);
+  text-align: center;
+  font-family: "Bebas Neue", Impact, sans-serif; font-weight: 400; text-transform: uppercase;
+  font-size: clamp(17px, 1.9vw, 21px);
+  letter-spacing: -.015em;
+  color: var(--texto);
+  opacity: .82;
+}
+.clientes__pie { margin: var(--xs) 0 0; font-size: 15px; color: var(--texto-suave); }
+
+/* ───────── 2 · Las dos puertas ───────── */
+
+.puertas { padding: var(--l) 0 0; }
+.puertas__grilla { display: grid; gap: var(--xs); }
+@media (min-width: 760px) { .puertas__grilla { grid-template-columns: 1fr 1fr; } }
+
+.puerta {
+  display: flex; flex-direction: column;
+  gap: var(--xs);
+  padding: var(--m) var(--s) var(--s);
+  background: var(--fondo-alt);
+  border: 1px solid var(--borde);
+  color: inherit; text-decoration: none;
+  position: relative; overflow: hidden;
+  transition: transform var(--transicion), border-color var(--transicion);
+}
+.puerta::before {
+  content: ""; position: absolute; inset: 0 auto 0 0;
+  width: 6px;
+}
+.puerta--b2c::before { background: linear-gradient(180deg, var(--amarillo), var(--naranja)); }
+.puerta--b2b::before { background: linear-gradient(180deg, var(--naranja), var(--rojo)); }
+.puerta:hover { transform: translateY(-4px); border-color: var(--acento); }
+@media (prefers-reduced-motion: reduce) { .puerta:hover { transform: none; } }
+
+.puerta__num {
+  font-family: "Bebas Neue", Impact, sans-serif; font-weight: 400; text-transform: uppercase;
+  font-size: 13px; color: var(--texto-suave); letter-spacing: .1em;
+}
+.puerta__titulo {
+  margin: 0;
+  font-family: "Bebas Neue", Impact, sans-serif; font-weight: 400; text-transform: uppercase;
+  font-size: clamp(30px, 5vw, 42px); line-height: 1; letter-spacing: .01em;
+}
+.puerta__bajada { margin: 0; color: var(--texto-suave); max-width: 44ch; }
+.puerta__cta {
+  margin-top: auto; padding-top: var(--xs);
+  font-weight: 700; font-size: 15px;
+  border-bottom: 2px solid var(--acento); align-self: flex-start;
+}
+
+/* ───────── Secciones ───────── */
+
+.seccion { padding: var(--l) 0; }
+/* 86 px por lado: dos secciones seguidas dan 172 px de aire, que es el ritmo justo.
+   Con --xl (140) quedaban 280 px de blanco muerto entre bloques. */
+@media (min-width: 900px) { .seccion { padding: 86px 0; } }
+.seccion--banda { background: var(--fondo-alt); border-block: 1px solid var(--borde); }
+.seccion--sobria { background: var(--fondo); }
+
+.cierre-seccion {
+  display: flex; flex-wrap: wrap; align-items: center; gap: var(--xs) var(--s);
+  margin-top: var(--m); padding-top: var(--s);
+  border-top: 1px solid var(--borde);
+}
+.cierre-seccion__nota { font-size: 14px; color: var(--texto-suave); }
+
+/* ───────── 3 · Academia ───────── */
+
+.academia__grilla { display: grid; gap: var(--m); }
+@media (min-width: 900px) {
+  /* Sin foto al costado: acá el fondo de la página es la foto. Los instrumentos
+     y la ficha van uno al lado del otro, que además rompe el patrón de
+     «texto a la izquierda, foto a la derecha» que ya se repetía en tres secciones. */
+  .academia__grilla { grid-template-columns: .85fr 1fr; gap: var(--l); align-items: start; }
+}
+
+.instrumentos { margin: 0; padding: 0; list-style: none; display: grid; gap: 2px; align-content: start; }
+.instrumentos li {
+  display: flex; align-items: center; gap: var(--xs);
+  padding: var(--xs) 0;
+  border-bottom: 1px solid var(--borde);
+  font-family: "Bebas Neue", Impact, sans-serif; font-weight: 400; text-transform: uppercase;
+  font-size: clamp(24px, 3.8vw, 32px); letter-spacing: .015em;
+}
+
+
+.ficha { margin: 0; display: grid; gap: 0; align-content: start; }
+.ficha > div {
+  display: grid; gap: 4px;
+  padding: 12px 0; border-bottom: 1px solid var(--borde);
+}
+/* En celular las dos columnas dejaban 13,5 caracteres por linea y TODAS las
+   filas se partian en dos. Apiladas entran de una. */
+@media (min-width: 620px) { .ficha > div { grid-template-columns: 1fr 1.25fr; gap: var(--xs); } }
+.ficha dt { font-size: 13px; font-stretch: 84%; text-transform: uppercase; letter-spacing: .08em; color: var(--texto-suave); }
+.ficha dd { margin: 0; font-weight: 600; font-size: 15px; }
+
+.nota-precio { margin: var(--m) 0 0; color: var(--texto-suave); }
+
+/* ───────── Las muestras ─────────
+   La prueba de la academia: los alumnos terminan tocando en un escenario de
+   verdad, con la misma luz roja y ámbar de la marca. */
+.muestras { margin-top: var(--l); }
+.muestras__titulo {
+  margin: 0 0 var(--s);
+  font-family: "Bebas Neue", Impact, sans-serif; font-weight: 400; text-transform: uppercase;
+  font-size: clamp(26px, 4.2vw, 36px); line-height: 1.02; letter-spacing: .01em;
+}
+/* Carrusel de videos. Mismo mecanismo que el de casos: scroll nativo con
+   scroll-snap, se arrastra con el dedo y las flechas son un extra. */
+.carrusel { position: relative; }
+.carrusel__cabecera {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--s);
+  margin-bottom: var(--xs);
+}
+.carrusel__cabecera .rotulo { margin: 0; }
+.carrusel > .carrusel__flechas {
+  display: flex; gap: 6px; justify-content: flex-end; margin-bottom: var(--xs);
+}
+.carrusel__cabecera .carrusel__flechas { display: flex; gap: 6px; }
+.carrusel__pista {
+  display: flex; gap: var(--xs);
+  margin: 0; padding: 0 0 var(--xs); list-style: none;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+}
+.carrusel__pista::-webkit-scrollbar { display: none; }
+.carrusel__pista > li { flex: 0 0 auto; scroll-snap-align: start; width: min(62%, 260px); }
+@media (min-width: 620px) { .carrusel__pista > li { width: 260px; } }
+/* los de Mercado Libre son apaisados: ocupan más ancho */
+.carrusel--empresas { margin-top: var(--l); }
+.carrusel--empresas .carrusel__pista > li { width: min(88%, 520px); }
+
+/* Video vertical, como los reels que él ya hace. Nada carga hasta que le dan
+   play: preload="none" y una portada liviana. */
+.video-muestra { position: relative; margin: 0; background: #000; overflow: hidden; }
+.video-muestra video {
+  display: block; width: 100%; aspect-ratio: 9/16; object-fit: cover;
+  background: #000;
+}
+.video-muestra--ancho video { aspect-ratio: 16/9; }
+.video-muestra__play {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
+  border: 0; background: linear-gradient(180deg, rgba(0,0,0,.15), rgba(0,0,0,.55));
+  color: #fff; font: inherit; font-weight: 700; font-size: 15px;
+  cursor: pointer;
+  transition: opacity .2s;
+}
+.video-muestra__play:hover { background: linear-gradient(180deg, rgba(0,0,0,.05), rgba(0,0,0,.45)); }
+.video-muestra.esta-sonando .video-muestra__play { opacity: 0; pointer-events: none; }
+.video-muestra__triangulo {
+  width: 62px; height: 62px;
+  display: grid; place-content: center;
+  background: var(--acento);
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+}
+.video-muestra__triangulo::after {
+  content: ""; width: 0; height: 0;
+  border-left: 18px solid var(--acento-texto);
+  border-top: 11px solid transparent;
+  border-bottom: 11px solid transparent;
+  margin-left: 5px;
+}
+.video-muestra__rotulo {
+  background: rgba(0,0,0,.55); padding: 5px 12px;
+  text-shadow: 0 1px 2px rgba(0,0,0,.6);
+}
+
+/* mientras suena, el fondo deja de animarse solo: lo mueve la música */
+.vumetro.esta-escuchando i { animation: none !important; }
+.muestras__pie { margin: var(--xs) 0 0; font-size: 14px; color: var(--texto-suave); }
+
+/* ───────── 4 · Empresas ───────── */
+
+/* la evidencia: la foto a sangre, tratada como prueba documentada
+   —con marca, epígrafe y crédito— y no como afiche de recital */
+.evidencia { margin: var(--m) 0; }
+.evidencia img { width: 100%; aspect-ratio: 21/9; object-fit: cover; object-position: center 42%; }
+.evidencia__pie {
+  max-width: var(--ancho); margin-inline: auto;
+  padding: var(--xs) var(--s) 0;
+  font-size: 14px; line-height: 1.5; color: var(--texto-suave);
+}
+@media (min-width: 900px) { .evidencia__pie { padding-inline: var(--m); } }
+.evidencia__marca {
+  display: inline-block; margin-right: 8px;
+  font-family: "Bebas Neue", Impact, sans-serif; font-weight: 400; text-transform: uppercase;
+  color: var(--texto); font-size: 14px;
+}
+
+/* ───────── Carrusel de casos ─────────
+   Se desliza con scroll nativo y scroll-snap: en el celular se arrastra con el
+   dedo, en escritorio con la rueda o con las flechas. Los nombres de los
+   equipos quedan siempre a la vista y hacen de navegación, así el carrusel no
+   esconde nada: cada clic de más es una fuga. */
+
+.casos { margin-top: var(--l); }
+
+.casos__cabecera {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--s);
+  margin-bottom: var(--xs);
+}
+.casos__cabecera .rotulo { margin: 0; }
+.casos__flechas { display: flex; gap: 6px; }
+.casos__flecha {
+  width: 40px; height: 40px;
+  display: grid; place-content: center;
+  border: 2px solid var(--borde); background: transparent; color: var(--texto);
+  font-size: 22px; line-height: 1; cursor: pointer;
+  border-radius: var(--radio);
+}
+.casos__flecha:hover { border-color: var(--acento); }
+.casos__flecha[disabled] { opacity: .3; cursor: default; border-color: var(--borde); }
+
+.casos__pista {
+  display: flex; gap: var(--xs);
+  margin: 0; padding: 0 0 var(--xs); list-style: none;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+}
+.casos__pista::-webkit-scrollbar { display: none; }
+
+.caso-tarjeta {
+  flex: 0 0 auto;
+  width: min(88%, 460px);
+  scroll-snap-align: start;
+  display: grid; gap: var(--xs);
+  align-content: start;
+}
+@media (min-width: 760px) { .caso-tarjeta { width: min(46%, 520px); } }
+
+.caso-tarjeta__fotos {
+  margin: 0;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 4px;
+}
+.caso-tarjeta__principal { grid-column: 1 / -1; }
+.caso-tarjeta__principal img { width: 100%; aspect-ratio: 3/2; object-fit: cover; }
+.caso-tarjeta__chica img { width: 100%; aspect-ratio: 4/3; object-fit: cover; }
+
+.caso-tarjeta__texto h4 {
+  margin: 0 0 6px;
+  font-family: "Bebas Neue", Impact, sans-serif; font-weight: 400; text-transform: uppercase;
+  font-size: clamp(23px, 3.2vw, 28px); letter-spacing: .01em;
+}
+.caso-tarjeta__texto p { margin: 0 0 var(--xs); font-size: 16px; color: var(--texto-suave); }
+.caso-tarjeta__texto p:last-child { margin-bottom: 0; }
+.caso-tarjeta__dato {
+  display: inline-block;
+  background: var(--acento); color: var(--acento-texto) !important;
+  padding: 4px 10px; font-size: 15px; font-weight: 600;
+}
+.caso-tarjeta__dato b {
+  font-family: "Bebas Neue", Impact, sans-serif; font-weight: 400; text-transform: uppercase;
+  font-size: 19px; font-variant-numeric: tabular-nums;
+}
+
+.casos__nav {
+  display: flex; flex-wrap: wrap; gap: 4px var(--s);
+  padding-top: var(--xs);
+  border-top: 1px solid var(--borde);
+}
+.casos__punto {
+  border: 0; background: transparent; padding: 6px 0;
+  font: inherit; font-size: 15px; font-weight: 600;
+  color: var(--texto-suave); cursor: pointer;
+  border-bottom: 3px solid transparent;
+}
+.casos__punto:hover { color: var(--texto); }
+.casos__punto[aria-current="true"] { color: var(--texto); border-bottom-color: var(--acento-linea); }
+
+.casos__aviso { margin: var(--s) 0 0; font-size: 14px; color: var(--texto-suave); }
+
+.caso { margin-top: var(--l); }
+.caso__titulo {
+  margin: 0 0 var(--m);
+  font-family: "Bebas Neue", Impact, sans-serif; font-weight: 400; text-transform: uppercase;
+  font-size: clamp(27px, 4.4vw, 38px); letter-spacing: .01em;
+}
+
+.etapas { margin: 0 0 var(--m); padding: 0; list-style: none; display: grid; gap: var(--s); counter-reset: e; }
+@media (min-width: 800px) { .etapas { grid-template-columns: repeat(3, 1fr); gap: var(--m); } }
+.etapa { border-top: 2px solid var(--borde); padding-top: var(--xs); }
+.etapa__num {
+  display: flex; align-items: center; gap: 8px;
+  font-family: "Bebas Neue", Impact, sans-serif; font-weight: 400; text-transform: uppercase;
+  font-size: 14px; color: var(--texto-suave);
+}
+.etapa h4 { margin: 8px 0 6px; font-size: 18px; font-weight: 700; }
+.etapa p { margin: 0; color: var(--texto-suave); font-size: 16px; }
+
+.cita-prensa {
+  margin: 0; padding: var(--s);
+  background: var(--fondo-alt); border-left: 6px solid var(--acento);
+}
+.cita-prensa p {
+  margin: 0 0 var(--xs);
+  font-family: "Bebas Neue", Impact, sans-serif; font-weight: 400; text-transform: uppercase;
+  font-size: clamp(23px, 3.6vw, 32px); line-height: 1.12; letter-spacing: .01em;
+}
+.cita-prensa footer { font-size: 14px; color: var(--texto-suave); }
+.cita-prensa cite { font-style: normal; font-weight: 700; color: var(--texto); }
+
+/* ───────── Qué se hace, en criollo ─────────
+   Traducción de la jerga de speaker a tres formatos que se entienden sin saber
+   música. Misma escalera de bloques rojo→naranja→amarillo que el resto. */
+.formatos { margin-top: var(--l); }
+.formatos__titulo {
+  margin: 0 0 var(--xs);
+  font-family: "Bebas Neue", Impact, sans-serif; font-weight: 400; text-transform: uppercase;
+  font-size: clamp(20px, 3.4vw, 30px); line-height: 1.15; letter-spacing: -.02em;
+}
+.formatos__entrada { margin: 0 0 var(--m); max-width: 60ch; color: var(--texto-suave); font-size: 1.05em; }
+
+.formatos__lista { margin: 0; padding: 0; list-style: none; display: grid; gap: var(--s); }
+@media (min-width: 800px) { .formatos__lista { grid-template-columns: repeat(3, 1fr); gap: var(--m); } }
+.formato { border-top: 2px solid var(--borde); padding-top: var(--xs); }
+.formato__num {
+  display: flex; align-items: center; gap: 8px;
+  font-family: "Bebas Neue", Impact, sans-serif; font-weight: 400; text-transform: uppercase;
+  font-size: 14px; color: var(--texto-suave);
+}
+.formato h4 { margin: 8px 0 6px; font-size: clamp(17px, 2.4vw, 20px); font-weight: 700; }
+.formato p { margin: 0; color: var(--texto-suave); font-size: 16px; }
+
+.formatos__cierre { margin-top: var(--l); }
+.formatos__mientras { margin: 0 0 var(--xs); font-weight: 700; }
+.formatos__traduccion {
+  margin: var(--s) 0 0; max-width: 62ch;
+  font-size: 16px; color: var(--texto-suave);
+}
+.formatos__traduccion b { color: var(--texto); font-weight: 700; }
+
+.temas { margin-top: var(--l); }
+.temas__lista { margin: 0; padding: 0; list-style: none; display: grid; gap: 0; }
+@media (min-width: 700px) { .temas__lista { grid-template-columns: 1fr 1fr; column-gap: var(--m); } }
+.temas__lista li {
+  display: flex; align-items: baseline; gap: var(--xs);
+  padding: 12px 0; border-bottom: 1px solid var(--borde);
+  font-weight: 600;
+}
+/* viñeta cuadrada, nunca un tilde ni un punto */
+.temas__lista li::before {
+  content: ""; width: 10px; height: 10px; flex: none;
+  background: var(--acento);
+}
+
+.temas__fuente { margin: var(--xs) 0 0; font-size: 15px; color: var(--texto-suave); }
+
+.logistica { margin-top: var(--l); }
+.logistica__tabla { margin: 0; display: grid; }
+.logistica__tabla > div {
+  display: grid; gap: 4px;
+  padding: 13px 0; border-bottom: 1px solid var(--borde);
+}
+@media (min-width: 620px) { .logistica__tabla > div { grid-template-columns: 1fr 1.4fr; gap: var(--xs); } }
+.logistica__tabla dt { font-weight: 700; font-size: 15px; }
+.logistica__tabla dd { margin: 0; color: var(--texto-suave); }
+
+.testimonio-jerarquia {
+  margin: var(--l) 0 0; padding: var(--s) 0 0;
+  border-top: 2px solid var(--texto);
+}
+.testimonio-jerarquia p {
+  margin: 0 0 var(--xs);
+  font-size: clamp(18px, 2.6vw, 22px); line-height: 1.45;
+}
+.testimonio-jerarquia footer { display: grid; gap: 2px; font-size: 14px; }
+.testimonio-jerarquia footer span { color: var(--texto-suave); }
+
+/* ───────── 5 · Sobre mí ───────── */
+
+.sobre__grilla { display: grid; gap: var(--m); }
+@media (min-width: 900px) { .sobre__grilla { grid-template-columns: 1.35fr .65fr; gap: var(--l); align-items: start; } }
+/* El relato va en tercera persona porque es el de La Nación, no el de él.
+   Una línea vertical lo marca como material citado: así la tercera persona
+   se lee como «lo dijo el diario» y no como una inconsistencia de voz. */
+.sobre__relato {
+  border-left: 3px solid var(--borde);
+  padding-left: var(--s);
+}
+.sobre__relato p { max-width: 62ch; }
+.sobre__relato > p:first-child { margin-top: 0; }
+
+.cita-grande {
+  margin: var(--m) 0; padding-left: var(--s);
+  border-left: 6px solid var(--acento);
+}
+.cita-grande p {
+  margin: 0;
+  font-family: "Bebas Neue", Impact, sans-serif; font-weight: 400; text-transform: uppercase;
+  font-size: clamp(26px, 4.2vw, 38px); line-height: 1.06; letter-spacing: .01em;
+}
+.cita-corta {
+  font-family: "Bebas Neue", Impact, sans-serif; font-weight: 400; text-transform: uppercase;
+  font-size: clamp(18px, 2.7vw, 24px);
+}
+.fuente { font-size: 14px; color: var(--texto-suave); }
+.fuente cite { font-style: normal; font-weight: 700; }
+
+/* La foto no va pegada y sola: lleva el mismo marco fino desplazado que el hero
+   —el marco vacio que el ya usa en sus placas— y encima el sello de los 20 anos,
+   que es su credencial mas fuerte y estaba escondida en un epigrafe gris. */
+.sobre__foto { margin: 0; position: relative; }
+.sobre__foto img {
+  width: 100%; aspect-ratio: 2/3; object-fit: cover; object-position: 50% 30%;
+  box-shadow: var(--sombra-foto);
+}
+.sobre__foto::after {                       /* marco desplazado */
+  content: ""; position: absolute;
+  inset: 14px -14px 46px 14px;
+  border: 2px solid var(--acento);
+  z-index: -1;
+}
+.sobre__foto figcaption { margin-top: var(--xs); font-size: 14px; color: var(--texto-suave); }
+
+.sello-anios {
+  position: absolute; left: -10px; bottom: 44px;
+  display: flex; align-items: baseline; gap: 8px;
+  padding: 10px 16px 12px;
+  background: var(--acento); color: var(--acento-texto);
+}
+.sello-anios b {
+  font-family: "Bebas Neue", Impact, sans-serif; font-weight: 400; text-transform: uppercase;
+  font-size: clamp(36px, 6.8vw, 50px); line-height: .8;
+  font-variant-numeric: tabular-nums; letter-spacing: -.03em;
+}
+.sello-anios span {
+  font-size: 13px; font-weight: 700; line-height: 1.15;
+  text-transform: uppercase; letter-spacing: .1em; font-stretch: 84%;
+  max-width: 6em;
+}
+
+/* ───────── 6 · Lo que dicen ───────── */
+
+.puntaje {
+  display: flex; flex-wrap: wrap; align-items: center; gap: var(--xs) var(--m);
+  padding-bottom: var(--m); margin-bottom: var(--m);
+  border-bottom: 1px solid var(--borde);
+}
+.puntaje__numero { display: flex; align-items: center; gap: var(--xs); }
+.puntaje__numero b {
+  font-family: "Bebas Neue", Impact, sans-serif; font-weight: 400; text-transform: uppercase;
+  font-size: clamp(54px, 11vw, 92px); line-height: .82;
+  font-variant-numeric: tabular-nums;
+}
+/* Estrellas: el mismo icono en toda la pagina —la navbar, los datos del
+   encabezado, el puntaje y el boton de resenas— para que se lean como una
+   sola cosa. Es el star solido de Heroicons. */
+.estrellas { display: flex; gap: 2px; }
+.estrellas svg { width: 22px; height: 22px; fill: var(--acento-linea); flex: none; }
+
+/* En los datos duros ocupan el lugar del numero, asi que pesan como el numero */
+.estrellas--dato { gap: 1px; margin-bottom: 3px; }
+.estrellas--dato svg { width: 26px; height: 26px; }
+
+/* se encienden una por una al entrar en pantalla, igual que suben los numeros */
+.estrellas--dato svg { opacity: .18; transform: scale(.82); transform-origin: center; }
+.estrellas--dato.esta-visible svg {
+  opacity: 1; transform: none;
+  transition: opacity .34s ease, transform .34s cubic-bezier(.34,1.56,.64,1);
+}
+.estrellas--dato.esta-visible svg:nth-child(1) { transition-delay: .00s; }
+.estrellas--dato.esta-visible svg:nth-child(2) { transition-delay: .09s; }
+.estrellas--dato.esta-visible svg:nth-child(3) { transition-delay: .18s; }
+.estrellas--dato.esta-visible svg:nth-child(4) { transition-delay: .27s; }
+.estrellas--dato.esta-visible svg:nth-child(5) { transition-delay: .36s; }
+
+/* los numeros que suben no deben cambiar de ancho mientras corren */
+.datos-duros b { font-variant-numeric: tabular-nums; }
+
+/* Los <span> que llevan el contador viven DENTRO del <b>, y la regla de las
+   etiquetas (.datos-duros span) tambien los alcanzaba: salian mas chicos que
+   el texto que los rodea. Adentro del <b> mandan los estilos del <b>. */
+.datos-duros b span { font: inherit; color: inherit; letter-spacing: inherit; }
+.puntaje__texto { margin: 0; max-width: 34ch; color: var(--texto-suave); }
+.puntaje__texto b { color: var(--texto); }
+
+.resenas { display: grid; gap: var(--s); }
+@media (min-width: 800px) { .resenas { grid-template-columns: repeat(3, 1fr); gap: var(--m); } }
+.resena {
+  margin: 0; padding-top: var(--xs);
+  border-top: 2px solid var(--acento);
+}
+.resena p { margin: 0 0 var(--xs); font-size: 16px; }
+.resena footer { display: grid; gap: 1px; font-size: 14px; }
+.resena footer span { color: var(--texto-suave); }
+
+.nota-resenas { margin: var(--m) 0 0; max-width: 62ch; color: var(--texto-suave); font-size: 15px; }
+
+/* ───────── 7 · Contacto ───────── */
+
+.contacto {
+  /* el alto de la marca manda: la sección se reserva esa banda abajo para que
+     el isotipo entre ENTERO, sin comerse el borde ni pisar el formulario */
+  --marca: clamp(200px, 30vw, 300px);
+  position: relative; overflow: hidden;
+  background: var(--fondo-oscuro);
+  color: var(--texto-claro);
+  padding: var(--l) 0 calc(var(--marca) + var(--l));
+}
+@media (min-width: 900px) { .contacto { padding: 96px 0 calc(var(--marca) + var(--l)); } }
+/* ───────── La marca, ecualizando ─────────
+   Aparece UNA sola vez en toda la página. Los ocho bloques sueltos del isotipo
+   suben y bajan como las columnas del vúmetro —misma rampa, mismo sentido—
+   mientras los dos trazos sólidos, el gancho de la J y la panza de la P, se
+   quedan quietos. Es literalmente lo que él vende: los bloques sueltos se
+   mueven, la forma terminada no. */
+.contacto__marca {
+  position: absolute; right: var(--m); bottom: var(--m);
+  height: var(--marca); width: auto;
+  pointer-events: none;
+  opacity: .34;
+}
+.contacto__marca rect.m { transform-box: fill-box; transform-origin: bottom; }
+.contacto.esta-visible .contacto__marca rect.m {
+  animation: marcaVumetro calc(1.15s + var(--col) * .4s) ease-in-out infinite alternate;
+  animation-delay: calc(var(--paso) * .19s);
+}
+@keyframes marcaVumetro {
+  from { transform: scaleY(.62); opacity: .6; }
+  to   { transform: scaleY(1);   opacity: 1; }
+}
+.contacto__grilla { position: relative; display: grid; gap: var(--l); }
+@media (min-width: 860px) { .contacto__grilla { grid-template-columns: 1fr 1fr; gap: var(--xl); } }
+
+.contacto__saludo {
+  font-family: "Bebas Neue", Impact, sans-serif; font-weight: 400; text-transform: uppercase;
+  font-size: clamp(23px, 3.4vw, 30px); line-height: 1.14;
+  margin: 0 0 var(--s);
+}
+.contacto__datos { margin: var(--m) 0 0; padding: var(--s) 0 0; list-style: none; border-top: 1px solid rgba(255,255,255,.16); display: grid; gap: var(--xs); }
+.contacto__datos li { font-size: 15px; color: color-mix(in srgb, var(--texto-claro) 72%, transparent); }
+.contacto__datos b { display: block; color: var(--texto-claro); font-size: 13px; text-transform: uppercase; letter-spacing: .12em; font-stretch: 84%; }
+
+.formulario { display: grid; gap: var(--xs); align-content: start; }
+.formulario__intro { margin: 0 0 6px; font-weight: 700; }
+.campo { display: grid; gap: 6px; border: 0; padding: 0; margin: 0; }
+.campo__rotulo { font-size: 13px; text-transform: uppercase; letter-spacing: .1em; font-stretch: 84%; color: color-mix(in srgb, var(--texto-claro) 70%, transparent); }
+.campo input {
+  width: 100%; padding: 13px 14px;
+  background: rgba(255,255,255,.07);
+  border: 1px solid rgba(255,255,255,.32);   /* 2,31:1 -> 3,42:1 medido */
+  border-radius: var(--radio);
+  color: var(--texto-claro); font: inherit; font-size: 16px;
+}
+.campo input::placeholder { color: rgba(255,255,255,.35); }
+.campo input:focus { border-color: var(--acento); background: rgba(255,255,255,.1); }
+.campo--opciones { display: grid; gap: 8px; }
+.opcion { display: flex; align-items: center; gap: 8px; cursor: pointer; }
+.opcion input { accent-color: var(--acento); width: 18px; height: 18px; }
+.campo-par { display: grid; gap: var(--xs); }
+@media (min-width: 520px) { .campo-par { grid-template-columns: 1fr 1fr; } }
+.campos-empresa { display: grid; gap: var(--xs); }
+.campos-empresa[hidden] { display: none; }
+.formulario__aviso { margin: 0; font-size: 13px; color: color-mix(in srgb, var(--texto-claro) 60%, transparent); }
+
+/* Los textos chicos que caen sobre el vúmetro necesitan cuerpo, no color:
+   subir el tamaño rinde más que aclararlos, y no rompe la jerarquía. */
+.sobre__foto figcaption,
+.evidencia__pie,
+.muestras__pie,
+.casos__aviso,
+.cierre-seccion__nota,
+.fuente { font-size: 15px; line-height: 1.5; }
+
+/* ───────── Redes ─────────
+   Los botones van donde la persona ya decidió buscarlo: en Contacto,
+   con nombre, y repetidos en el pie sólo como íconos. */
+.redes { display: flex; flex-wrap: wrap; gap: var(--xs); margin-top: var(--m); }
+.red {
+  display: inline-flex; align-items: center; gap: 9px;
+  padding: 11px 16px;
+  border: 2px solid rgba(255,255,255,.22);
+  color: var(--texto-claro); text-decoration: none;
+  font-size: 15px; font-weight: 600;
+  border-radius: var(--radio);
+  transition: border-color .18s, background-color .18s;
+}
+.red:hover { border-color: var(--acento); background: rgba(255,255,255,.05); }
+.red svg { width: 20px; height: 20px; flex: none; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.red svg .lleno { fill: currentColor; stroke: none; }
+
+.redes--pie { margin: 0; gap: 8px; }
+.redes--pie .red { padding: 9px; border-color: rgba(255,255,255,.18); }
+.redes--pie .red span { display: none; }
+
+.ico-estrella { width: 18px; height: 18px; fill: var(--acento-linea); flex: none; }
+
+/* ───────── Pie ───────── */
+
+.pie { background: var(--fondo-oscuro); color: var(--texto-claro); padding: var(--s) 0 calc(var(--s) + 64px); border-top: 1px solid rgba(255,255,255,.12); }
+@media (min-width: 760px) { .pie { padding-bottom: var(--s); } }
+.pie__fila { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--xs); }
+.pie__logo { width: 52px; height: auto; }
+.pie__legal { margin: 0; font-size: 13px; color: color-mix(in srgb, var(--texto-claro) 60%, transparent); }
+
+/* ───────── Barra fija de celular ─────────
+   Un solo destino, siempre el mismo. No cambia según el scroll:
+   una barra que se da vuelta sola es una trampa. */
+
+.barra-fija {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 90;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  padding: 15px;
+  background: #25D366; color: #06331A;
+  font-weight: 700; text-decoration: none; font-size: 16px;
+  transform: translateY(110%);
+  transition: transform var(--transicion);
+}
+.barra-fija.esta-visible { transform: translateY(0); }
+@media (min-width: 760px) { .barra-fija { display: none; } }
+
+/* ───────── Aparición al entrar en pantalla ─────────
+   Un asentamiento de 22 px, no un vuelo. Sin librerías, sin parallax. */
+
+.aparece { opacity: 0; transform: translateY(22px); }
+.aparece.esta-visible {
+  opacity: 1; transform: none;
+  transition: opacity .7s cubic-bezier(.16,1,.3,1), transform .7s cubic-bezier(.16,1,.3,1);
+}
+
+/* Con movimiento reducido el vúmetro no se apaga: se congela.
+   Queda un ecualizador quieto, con sus niveles, que sigue diciendo lo mismo. */
+@media (prefers-reduced-motion: reduce) {
+  .aparece, .aparece.esta-visible { opacity: 1; transform: none; transition: none; }
+  .barra-fija { transition: none; }
+  .vumetro.esta-visible i { animation: none; clip-path: inset(var(--a) 0 0 0); }
+  .contacto.esta-visible   .estrellas--dato svg { opacity: 1; transform: none; transition: none; }
+  .contacto.esta-visible .contacto__marca rect.m { animation: none; transform: none; opacity: 1; }
+  *, *::before, *::after {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+  }
+}
+
+/* ───────── Ajustes de celular, salidos de la revisión ─────────
+   Los dos casos que sólo aparecen en los extremos: la pantalla más angosta
+   y el celular acostado. */
+
+/* A 320 px al botón le faltaban 4,3 px y se partía en dos líneas. */
+@media (max-width: 359px) {
+  .boton { padding-inline: 16px; gap: 8px; font-size: 15px; }
+}
+
+/* Acostado, las fotos verticales medían casi 3 pantallas de alto: había que
+   dar cuatro pantallazos de pulgar para pasar una sola foto. El tope de
+   max-width: 899px es el que deja el escritorio intacto. */
+@media (orientation: landscape) and (max-height: 500px) and (max-width: 899px) {
+  .hero__foto, .sobre__foto { max-width: 52svh; margin-inline: auto; }
+}

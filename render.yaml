@@ -1,0 +1,8 @@
+# Blueprint de Render. En el panel: New → Blueprint → este repo.
+# Es un sitio estático sin build: se publica la carpeta tal cual.
+services:
+  - type: web
+    name: jp-coach-de-musica
+    runtime: static
+    buildCommand: echo "Sitio estatico, sin build"
+    staticPublishPath: .

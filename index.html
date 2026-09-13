@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JP Coach de Música — Juan Pablo Granatelli</title>
+<meta name="description" content="Utilizo la música y la experiencia de aprender para desarrollar habilidades humanas y liderazgo. Clases en Buenos Aires y online, y experiencias musicales para equipos.">
+<link rel="icon" href="img/logo/jp-isotipo.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" href="img/favicon-64.png" type="image/png">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/estilos.css">
+</head>
+<body data-paleta="a">
+<!-- Arranca siempre oscura (paleta A). Si en esta visita eligieron el tema claro
+     (paleta B), se aplica acá, antes del primer pintado, para que no parpadee. -->
+<script>try { if (sessionStorage.getItem('jp-tema') === 'claro') document.body.setAttribute('data-paleta', 'b'); } catch (e) {}</script>
+
+<!-- El vúmetro, de fondo de toda la página.
+     Es el isotipo desarmado y estirado: el mismo cuadrado, la misma rampa y el
+     mismo sentido —la carga sube desde abajo, rojo → naranja → amarillo.
+     Queda fijo al pie de la ventana; las secciones con fondo propio lo tapan y
+     las transparentes lo dejan ver. Ese ir y venir es el ritmo de la página. -->
+<!-- Foto de fondo de página. Va DEBAJO del vúmetro (z-index -1 contra 0):
+     primero la foto, encima el ecualizador, y arriba de todo el contenido.
+     Sólo se enciende mientras la sección Academia está en pantalla. -->
+<div class="fondo-foto" aria-hidden="true" data-fondo-foto>
+  <picture>
+    <source type="image/webp" srcset="img/fondo-estudio-1000.webp 1000w, img/fondo-estudio-1800.webp 1800w" sizes="100vw">
+    <img src="img/fondo-estudio-1800.jpg" alt="" loading="lazy" decoding="async">
+  </picture>
+</div>
+
+<div class="vumetro" aria-hidden="true" data-vumetro></div>
+
+<a class="saltar" href="#contenido">Saltar al contenido</a>
+
+<!-- ═════════ ENCABEZADO FIJO ═════════ -->
+<header class="cabecera" id="cabecera">
+  <div class="contenedor cabecera__fila">
+    <a class="cabecera__marca" href="#contenido" aria-label="JP Coach de Música — inicio">
+      <svg class="iso iso--color cabecera__iso" viewBox="0 0 900 990" aria-hidden="true">
+        <path fill="#FFCF41" class="m m--amarillo m--curva" fill-rule="evenodd" d="M690 1 743 2 779 5 807 18 828 35 828 37 839 47 865 86 883 130 895 181 899 238 895 287 886 325 868 367 858 383 839 406 811 428 782 442 740 451 686 455 685 337 719 334 735 325 745 315 756 299 766 277 770 265 775 236 774 193 766 165 756 147 743 133 730 124 711 117 689 115 690 1Z"/>
+        <rect fill="#FFCF41" class="m m--amarillo" x="508" y="3" width="128" height="116" style="--col:2;--paso:4"/>
+        <rect fill="#FFCF41" class="m m--amarillo" x="285" y="171" width="130" height="117" style="--col:1;--paso:2"/>
+        <rect fill="#FFCF41" class="m m--amarillo" x="509" y="171" width="129" height="117" style="--col:2;--paso:3"/>
+        <rect fill="#FFCF41" class="m m--amarillo" x="509" y="337" width="128" height="118" style="--col:2;--paso:2"/>
+        <rect fill="#FFCF41" class="m m--amarillo" x="286" y="339" width="130" height="117" style="--col:1;--paso:1"/>
+        <rect fill="#F16B11" class="m m--naranja" x="286" y="507" width="130" height="116" style="--col:1;--paso:0"/>
+        <rect fill="#F16B11" class="m m--naranja" x="509" y="507" width="129" height="116" style="--col:2;--paso:1"/>
+        <rect fill="#BC1212" class="m m--rojo" x="0" y="690" width="131" height="119" style="--col:0;--paso:1"/>
+        <path fill="#BC1212" class="m m--rojo m--curva" fill-rule="evenodd" d="M287 690 418 690 419 761 417 816 413 846 401 888 386 918 370 939 350 957 317 975 284 984 250 988 184 989 169 986 168 868 225 868 240 866 252 862 265 854 274 844 280 833 287 802 287 690Z"/>
+        <rect fill="#BC1212" class="m m--rojo" x="508" y="690" width="131" height="119" style="--col:2;--paso:0"/>
+        <rect fill="#BC1212" class="m m--rojo" x="0" y="871" width="131" height="118" style="--col:0;--paso:0"/>
+      </svg>
+      <span class="cabecera__nombre">JP <b>Coach de Música</b></span>
+    </a>
+    <nav class="cabecera__nav" aria-label="Secciones">
+      <a href="#academia">Academia</a>
+      <a href="#empresas">Empresas</a>
+      <a href="#sobre-mi">Sobre mí</a>
+      <a class="cabecera__resenas" href="#lo-que-dicen">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006Z"/></svg>
+        Reseñas
+      </a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+    <button type="button" class="cabecera__tema" id="cambiar-tema" aria-label="Cambiar a tema claro" title="Cambiar a tema claro">
+      <svg class="ico-sol" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M4.6 4.6 6 6M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4 6 18M18 6l1.4-1.4"/></svg>
+      <svg class="ico-luna" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.2A8 8 0 0 1 9.8 4a8 8 0 1 0 10.2 10.2Z"/></svg>
+    </button>
+    <a class="boton boton--wa cabecera__cta" href="https://wa.me/5491150458850?text=Hola%20Juan%20Pablo!%20Te%20escribo%20desde%20tu%20p%C3%A1gina." target="_blank" rel="noopener">
+      <svg class="ico-wa" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.9-4.45 9.9-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm0 18.15h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.18 8.18 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.25-8.23a8.2 8.2 0 0 1 8.23 8.24c0 4.54-3.7 8.23-8.23 8.23Zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.24-.64.8-.79.97-.14.16-.29.18-.54.06-.25-.13-1.05-.39-1.99-1.23-.74-.66-1.24-1.47-1.38-1.72-.15-.25-.02-.38.11-.5.11-.11.25-.29.37-.44.13-.15.17-.25.25-.42.08-.16.04-.31-.02-.43-.06-.12-.56-1.35-.77-1.84-.2-.49-.4-.42-.56-.43h-.47c-.16 0-.43.06-.65.31-.22.25-.85.83-.85 2.03s.87 2.35.99 2.51c.12.16 1.71 2.61 4.14 3.66.58.25 1.03.4 1.38.51.58.19 1.11.16 1.53.1.47-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.11-.22-.17-.47-.29Z"/></svg>
+      Escribime
+    </a>
+    <button class="cabecera__menu" id="abrir-menu" aria-expanded="false" aria-controls="cabecera-nav-movil" aria-label="Abrir menú">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <nav class="cabecera__movil" id="cabecera-nav-movil" hidden aria-label="Secciones">
+    <a href="#academia">Academia</a>
+    <a href="#empresas">Empresas</a>
+    <a href="#sobre-mi">Sobre mí</a>
+    <a href="#lo-que-dicen">Lo que dicen</a>
+    <a href="#contacto">Contacto</a>
+  </nav>
+</header>
+
+<main id="contenido">
+
+<!-- ═════════ 1 · ENCABEZADO ═════════ -->
+<section class="hero" aria-labelledby="hero-titulo">
+  <div class="contenedor hero__grilla">
+
+    <div class="hero__texto">
+      <p class="rotulo rotulo--rampa">Juan Pablo Granatelli</p>
+
+      <!-- Negación y remate: la primera línea saca de la cabeza «profe de
+           guitarra», la segunda dice qué es. El resalte va en el remate,
+           que es donde está el gancho, y no en la negación. -->
+      <h1 class="hero__h1" id="hero-titulo">
+        <span class="hero__niega">No es solo una clase de música.</span>
+        Es una clase de liderazgo
+        <span class="resalte">con una guitarra en la mano.</span>
+      </h1>
+
+      <!-- Su frase, textual del brief. Baja de titular a bajada para que lo
+           primero que se lea sean cuatro palabras y no quince, pero no se pierde. -->
+      <p class="hero__frase">
+        Utilizo la música y la experiencia de aprender para desarrollar
+        habilidades humanas y liderazgo.
+      </p>
+
+      <p class="hero__bajada">
+        Profesor, músico y consultor. Más de 20 años enseñando en Buenos Aires y online.
+        <b>Chicos, adultos, desde cero o retomando.</b>
+      </p>
+
+      <div class="hero__acciones">
+        <a class="boton boton--lleno" href="#puertas">Elegí por dónde empezar</a>
+        <a class="boton boton--linea" href="#empresas">Experiencias para equipos</a>
+      </div>
+
+      <ul class="datos-duros">
+        <li><b data-contar="20">20</b><span>años enseñando</span></li>
+        <li>
+          <span class="estrellas estrellas--dato" role="img" aria-label="5 de 5 estrellas en Google" data-estrellas><svg viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006Z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006Z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006Z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006Z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006Z"/></svg></span>
+          <span>en Google · 44 reseñas</span>
+        </li>
+        <li><b><span data-contar="4">4</span> a <span data-contar="60">60</span>+</b><span>años, la edad de mis alumnos</span></li>
+        <li><b>Buenos Aires</b><span>presencial y online</span></li>
+      </ul>
+    </div>
+
+    <figure class="hero__foto">
+      <picture>
+        <source type="image/webp" srcset="img/jp-hero-800.webp 800w, img/jp-hero-1400.webp 1400w" sizes="(max-width:900px) 100vw, 46vw">
+        <img src="img/jp-hero-1400.jpg" width="1400" height="2100" alt="Juan Pablo Granatelli de pie con una guitarra eléctrica, mirando a cámara." fetchpriority="high" decoding="async">
+      </picture>
+      <span class="hero__marco" aria-hidden="true"></span>
+    </figure>
+
+  </div>
+
+</section>
+
+<!-- franja de clientes -->
+<section class="clientes" aria-label="Empresas que ya hicieron la experiencia">
+  <div class="contenedor">
+    <p class="clientes__rotulo">Equipos con los que ya trabajé</p>
+    <ul class="clientes__fila">
+      <li class="marca-cliente">Mercado&nbsp;Libre</li>
+      <li class="marca-cliente">Accelium</li>
+      <li class="marca-cliente">Securitas</li>
+      <li class="marca-cliente">LifeRocks</li>
+      <li class="marca-cliente">Taraborelli</li>
+      <li class="marca-cliente">Real&nbsp;Planning</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ═════════ 2 · LAS DOS PUERTAS ═════════ -->
+<section class="puertas" id="puertas" aria-labelledby="puertas-titulo">
+  <div class="contenedor">
+    <h2 class="oculto-visual" id="puertas-titulo">Elegí por dónde empezar</h2>
+    <div class="puertas__grilla">
+
+      <a class="puerta puerta--b2c" href="#academia">
+        <span class="puerta__num" aria-hidden="true">01</span>
+        <h3 class="puerta__titulo">Quiero aprender</h3>
+        <p class="puerta__bajada">Clases 1 a 1, presenciales u online. Desde los 4 años hasta los que se animan a empezar de grandes.</p>
+        <span class="puerta__cta">Ver la academia <span aria-hidden="true">→</span></span>
+      </a>
+
+      <a class="puerta puerta--b2b" href="#empresas">
+        <span class="puerta__num" aria-hidden="true">02</span>
+        <h3 class="puerta__titulo">Una experiencia para mi equipo</h3>
+        <p class="puerta__bajada">Una actividad para tu equipo, con música. Sin saber tocar, arman una banda y graban un tema juntos — y en el camino trabajan la comunicación, el liderazgo y la confianza. Lo hicieron en Mercado Libre.</p>
+        <span class="puerta__cta">Ver las experiencias para empresas <span aria-hidden="true">→</span></span>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═════════ 3 · ACADEMIA (B2C) ═════════ -->
+<section class="seccion seccion--calida" id="academia" aria-labelledby="academia-titulo">
+  <div class="contenedor">
+
+    <p class="rotulo">Academia · Para vos</p>
+    <h2 class="titulo" id="academia-titulo">Empezás tocando. <span class="resalte">Desde la primera clase.</span></h2>
+    <p class="entrada">
+      Clases 1 a 1 de guitarra, teclado, ukelele y bajo. Presencial en Buenos Aires
+      y online para Argentina, Latinoamérica y España. Alumnos desde los 4 años hasta más de 60:
+      CEOs, emprendedores, gente de oficina, chicos y adolescentes.
+    </p>
+
+    <div class="academia__grilla">
+
+      <ul class="instrumentos">
+        <li><span class="bloque bloque--rojo" aria-hidden="true"></span>Guitarra</li>
+        <li><span class="bloque bloque--naranja" aria-hidden="true"></span>Teclado</li>
+        <li><span class="bloque bloque--amarillo" aria-hidden="true"></span>Ukelele</li>
+        <li><span class="bloque bloque--rojo" aria-hidden="true"></span>Bajo</li>
+      </ul>
+
+<dl class="ficha">
+        <div><dt>Dónde</dt><dd>Buenos Aires — presencial y online</dd></div>
+        <div><dt>Online para</dt><dd>Argentina, Latinoamérica y España</dd></div>
+        <div><dt>Horarios</dt><dd>Lunes a sábado, de 9 a 20 h</dd></div>
+        <div><dt>Edades</dt><dd>Desde los 4 años, sin techo</dd></div>
+      </dl>
+
+    </div>
+
+    <!-- Las muestras: los alumnos terminan tocando arriba de un escenario de verdad.
+         Van en video y no en foto: es una página de música, tiene que sonar.
+         Mientras suena, el vúmetro del fondo deja de animarse solo y sigue la música. -->
+    <div class="muestras">
+      <p class="rotulo">Las muestras</p>
+      <h3 class="muestras__titulo">Los alumnos terminan <span class="resalte">arriba de un escenario.</span></h3>
+
+      <div class="carrusel" data-carrusel>
+        <div class="carrusel__flechas">
+          <button type="button" class="casos__flecha" data-mover="-1" aria-label="Anterior">‹</button>
+          <button type="button" class="casos__flecha" data-mover="1" aria-label="Siguiente">›</button>
+        </div>
+        <ul class="carrusel__pista" data-pista tabindex="0" aria-label="Muestras de alumnos, deslizable">
+        <li>
+          <figure class="video-muestra" data-video>
+            <video poster="img/video/muestra-solista-poster.jpg" preload="none" playsinline
+                   aria-label="Una alumna cantando y tocando la guitarra al frente de la banda.">
+              <source src="img/video/muestra-solista.mp4" type="video/mp4">
+            </video>
+            <button type="button" class="video-muestra__play" data-reproducir>
+              <span class="video-muestra__triangulo" aria-hidden="true"></span>
+              <span class="video-muestra__rotulo">Escuchalo</span>
+            </button>
+          </figure>
+        </li>
+        <li>
+          <figure class="video-muestra" data-video>
+            <video poster="img/video/muestra-banda-poster.jpg" preload="none" playsinline
+                   aria-label="La banda de alumnos tocando en vivo, con el público adelante.">
+              <source src="img/video/muestra-banda.mp4" type="video/mp4">
+            </video>
+            <button type="button" class="video-muestra__play" data-reproducir>
+              <span class="video-muestra__triangulo" aria-hidden="true"></span>
+              <span class="video-muestra__rotulo">Escuchalo</span>
+            </button>
+          </figure>
+        </li>
+        <li>
+          <figure class="video-muestra" data-video>
+            <video poster="img/video/muestra-voz-poster.jpg" preload="none" playsinline
+                   aria-label="Una alumna cantando en el escenario, con la banda detrás.">
+              <source src="img/video/muestra-voz.mp4" type="video/mp4">
+            </video>
+            <button type="button" class="video-muestra__play" data-reproducir>
+              <span class="video-muestra__triangulo" aria-hidden="true"></span>
+              <span class="video-muestra__rotulo">Escuchalo</span>
+            </button>
+          </figure>
+        </li>
+        <li>
+          <figure class="video-muestra" data-video>
+            <video poster="img/video/muestra-bajo-poster.jpg" preload="none" playsinline
+                   aria-label="Un alumno tocando el bajo durante la muestra.">
+              <source src="img/video/muestra-bajo.mp4" type="video/mp4">
+            </video>
+            <button type="button" class="video-muestra__play" data-reproducir>
+              <span class="video-muestra__triangulo" aria-hidden="true"></span>
+              <span class="video-muestra__rotulo">Escuchalo</span>
+            </button>
+          </figure>
+        </li>
+        <li>
+          <figure class="video-muestra" data-video>
+            <video poster="img/video/muestra-concierto-poster.jpg" preload="none" playsinline
+                   aria-label="El concierto final de la muestra, con la sala llena.">
+              <source src="img/video/muestra-concierto.mp4" type="video/mp4">
+            </video>
+            <button type="button" class="video-muestra__play" data-reproducir>
+              <span class="video-muestra__triangulo" aria-hidden="true"></span>
+              <span class="video-muestra__rotulo">Escuchalo</span>
+            </button>
+          </figure>
+        </li>
+        </ul>
+      </div>
+
+      <p class="muestras__pie">
+        Dale play. Subí el volumen: el ecualizador del fondo sigue lo que suena.
+      </p>
+    </div>
+
+    <div class="cierre-seccion">
+      <a class="boton boton--wa boton--lleno" href="https://wa.me/5491150458850?text=Hola%20Juan%20Pablo!%20Quer%C3%ADa%20consultarte%20por%20las%20clases." target="_blank" rel="noopener">
+        <svg class="ico-wa" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.9-4.45 9.9-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm0 18.15h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.18 8.18 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.25-8.23a8.2 8.2 0 0 1 8.23 8.24c0 4.54-3.7 8.23-8.23 8.23Zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.24-.64.8-.79.97-.14.16-.29.18-.54.06-.25-.13-1.05-.39-1.99-1.23-.74-.66-1.24-1.47-1.38-1.72-.15-.25-.02-.38.11-.5.11-.11.25-.29.37-.44.13-.15.17-.25.25-.42.08-.16.04-.31-.02-.43-.06-.12-.56-1.35-.77-1.84-.2-.49-.4-.42-.56-.43h-.47c-.16 0-.43.06-.65.31-.22.25-.85.83-.85 2.03s.87 2.35.99 2.51c.12.16 1.71 2.61 4.14 3.66.58.25 1.03.4 1.38.51.58.19 1.11.16 1.53.1.47-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.11-.22-.17-.47-.29Z"/></svg>
+        Escribime por WhatsApp
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═════════ 4 · EMPRESAS (B2B) ═════════ -->
+<section class="seccion seccion--sobria" id="empresas" aria-labelledby="empresas-titulo">
+  <div class="contenedor">
+    <p class="rotulo">Experiencias musicales para equipos</p>
+    <h2 class="titulo" id="empresas-titulo">Un equipo que nunca tocó nada <span class="resalte">termina tocando junto.</span></h2>
+    <p class="entrada">
+      Nadie mira sentado: tocan todos. El equipo arma una banda, ensaya, graba un tema y sale con
+      algo hecho. En el medio pasa todo lo demás: escucharse, repartir roles, sostener el tiempo
+      del otro, equivocarse en público y seguir.
+    </p>
+  </div>
+
+  <!-- la prueba: la foto se muestra como evidencia documentada, no como afiche -->
+  <figure class="evidencia">
+    <picture>
+      <source type="image/webp" srcset="img/meli-guitarras-1000.webp 1000w, img/meli-guitarras-2000.webp 2000w" sizes="100vw">
+      <img src="img/meli-guitarras-2000.jpg" width="2000" height="1333" alt="Doce personas de pie en el escenario del teatro Vorterix, cada una con una guitarra eléctrica, bajo luces rojas." loading="lazy" decoding="async">
+    </picture>
+    <figcaption class="evidencia__pie">
+      <span class="evidencia__marca">Mercado Libre</span>
+      Empleados de Mercado Libre durante una jornada en el teatro Vorterix, Buenos Aires.
+    </figcaption>
+  </figure>
+
+  <div class="contenedor">
+
+    <!-- Carrusel de casos.
+         Los nombres de los equipos quedan SIEMPRE visibles y hacen de navegación:
+         es un carrusel, pero nada queda escondido atrás de una flecha.
+         Se desliza solo con scroll y scroll-snap; los botones son un extra. -->
+    <div class="casos" data-casos>
+      <div class="casos__cabecera">
+        <p class="rotulo">Equipos con los que ya trabajé</p>
+        <div class="casos__flechas">
+          <button type="button" class="casos__flecha" data-mover="-1" aria-label="Caso anterior">‹</button>
+          <button type="button" class="casos__flecha" data-mover="1" aria-label="Caso siguiente">›</button>
+        </div>
+      </div>
+
+      <ul class="casos__pista" data-pista tabindex="0" aria-label="Casos, deslizable">
+
+        <li class="caso-tarjeta" id="caso-meli" data-nombre="Mercado Libre">
+          <figure class="caso-tarjeta__fotos">
+            <picture class="caso-tarjeta__principal">
+              <source type="image/webp" srcset="img/caso-meli-banda-700.webp 700w, img/caso-meli-banda-1200.webp 1200w" sizes="(max-width:760px) 88vw, 46vw">
+              <img src="img/caso-meli-banda-1200.jpg" width="1200" height="800" alt="Una banda de empleados de Mercado Libre tocando en el escenario, con luces de escenario." loading="lazy" decoding="async">
+            </picture>
+            <picture class="caso-tarjeta__chica">
+              <source type="image/webp" srcset="img/caso-meli-cantando-700.webp">
+              <img src="img/caso-meli-cantando-1200.jpg" width="700" height="467" alt="Cinco personas cantando frente a micrófonos." loading="lazy" decoding="async">
+            </picture>
+            <picture class="caso-tarjeta__chica">
+              <source type="image/webp" srcset="img/caso-meli-rockit-700.webp">
+              <img src="img/caso-meli-rockit-1200.jpg" width="700" height="525" alt="Grupo grande con remeras de Rock It, celebrando." loading="lazy" decoding="async">
+            </picture>
+          </figure>
+          <div class="caso-tarjeta__texto">
+            <h4>Mercado Libre</h4>
+            <p>Trabajo con ellos desde 2019, primero a nivel local y después regional. Adentro de la empresa el programa se llama <b>Rock It</b>. Terminó en una banda que tocó en vivo en la fiesta de fin de año y en el escenario del teatro Vorterix.</p>
+            <p class="caso-tarjeta__dato"><b>160</b> empleados de toda la región, según El Cronista</p>
+          </div>
+        </li>
+
+        <li class="caso-tarjeta" id="caso-taraborelli" data-nombre="Taraborelli">
+          <figure class="caso-tarjeta__fotos">
+            <picture class="caso-tarjeta__principal">
+              <source type="image/webp" srcset="img/caso-taraborelli-1-700.webp 700w, img/caso-taraborelli-1-1200.webp 1200w" sizes="(max-width:760px) 88vw, 46vw">
+              <img src="img/caso-taraborelli-1-1200.jpg" width="1200" height="900" alt="Cinco personas de oficina en una sala de reunión, con guitarra criolla, bajo, pandereta y teclado." loading="lazy" decoding="async">
+            </picture>
+            <picture class="caso-tarjeta__chica">
+              <source type="image/webp" srcset="img/caso-taraborelli-2-700.webp">
+              <img src="img/caso-taraborelli-2-1200.jpg" width="700" height="525" alt="Un grupo posando con instrumentos en la mano." loading="lazy" decoding="async">
+            </picture>
+            <picture class="caso-tarjeta__chica">
+              <source type="image/webp" srcset="img/caso-taraborelli-3-700.webp">
+              <img src="img/caso-taraborelli-3-1200.jpg" width="700" height="525" alt="La actividad en curso, con gente sentada alrededor." loading="lazy" decoding="async">
+            </picture>
+          </figure>
+          <div class="caso-tarjeta__texto">
+            <h4>Taraborelli</h4>
+            <p>Un equipo entero en una sala de reunión, sin escenario ni nada: guitarra criolla, bajo, teclado y percusión repartidos entre gente que llegó de traje.</p>          </div>
+        </li>
+
+        <li class="caso-tarjeta" id="caso-liferocks" data-nombre="LifeRocks">
+          <figure class="caso-tarjeta__fotos">
+            <picture class="caso-tarjeta__principal">
+              <source type="image/webp" srcset="img/caso-liferocks-1-700.webp 700w, img/caso-liferocks-1-1200.webp 1200w" sizes="(max-width:760px) 88vw, 46vw">
+              <img src="img/caso-liferocks-1-1200.jpg" width="1200" height="800" alt="Personas tocando guitarra y batería en un bar de paredes de ladrillo." loading="lazy" decoding="async">
+            </picture>
+            <picture class="caso-tarjeta__chica">
+              <source type="image/webp" srcset="img/caso-liferocks-2-700.webp">
+              <img src="img/caso-liferocks-2-1200.jpg" width="700" height="467" alt="Alguien cantando al micrófono junto a un guitarrista." loading="lazy" decoding="async">
+            </picture>
+            <picture class="caso-tarjeta__chica">
+              <source type="image/webp" srcset="img/caso-liferocks-3-700.webp">
+              <img src="img/caso-liferocks-3-1200.jpg" width="700" height="467" alt="La banda completa ensayando en el salón." loading="lazy" decoding="async">
+            </picture>
+          </figure>
+          <div class="caso-tarjeta__texto">
+            <h4>LifeRocks</h4>
+            <p>En un bar, con batería, amplificadores y micrófono abierto. La jornada que menos se parece a una reunión de trabajo.</p>          </div>
+        </li>
+
+        <li class="caso-tarjeta" id="caso-realplanning" data-nombre="Real Planning">
+          <figure class="caso-tarjeta__fotos">
+            <picture class="caso-tarjeta__principal">
+              <source type="image/webp" srcset="img/caso-realplanning-1-700.webp 700w, img/caso-realplanning-1-1200.webp 1200w" sizes="(max-width:760px) 88vw, 46vw">
+              <img src="img/caso-realplanning-1-1200.jpg" width="1200" height="900" alt="Una persona hablando frente a un equipo sentado, con un amplificador al costado." loading="lazy" decoding="async">
+            </picture>
+            <picture class="caso-tarjeta__chica">
+              <source type="image/webp" srcset="img/caso-realplanning-2-700.webp">
+              <img src="img/caso-realplanning-2-1200.jpg" width="700" height="525" alt="La misma charla, vista desde el fondo de la sala." loading="lazy" decoding="async">
+            </picture>
+          </figure>
+          <div class="caso-tarjeta__texto">
+            <h4>Real Planning</h4>
+            <p>Seguros e inversiones. Acá el formato es el de charla: yo adelante, el equipo sentado, y los instrumentos esperando en la sala.</p>          </div>
+        </li>
+
+        <li class="caso-tarjeta" id="caso-accelium" data-nombre="Accelium">
+          <figure class="caso-tarjeta__fotos">
+            <picture class="caso-tarjeta__principal">
+              <source type="image/webp" srcset="img/caso-accelium-1-700.webp 700w, img/caso-accelium-1-1200.webp 1200w" sizes="(max-width:760px) 88vw, 46vw">
+              <img src="img/caso-accelium-1-1200.jpg" width="1200" height="918" alt="El equipo posando en la oficina después de la actividad." loading="lazy" decoding="async">
+            </picture>
+          </figure>
+          <div class="caso-tarjeta__texto">
+            <h4>Accelium</h4>
+            <p>El equipo, después de la actividad.</p>          </div>
+        </li>
+
+      </ul>
+
+      <nav class="casos__nav" aria-label="Ir a un caso">
+        <button type="button" class="casos__punto" data-ir="caso-meli" aria-current="true">Mercado Libre</button>
+        <button type="button" class="casos__punto" data-ir="caso-taraborelli">Taraborelli</button>
+        <button type="button" class="casos__punto" data-ir="caso-liferocks">LifeRocks</button>
+        <button type="button" class="casos__punto" data-ir="caso-realplanning">Real Planning</button>
+        <button type="button" class="casos__punto" data-ir="caso-accelium">Accelium</button>
+      </nav>
+    </div>
+
+    <!-- el caso, desarmado en etapas, para que RRHH pueda armar el caso interno -->
+    <div class="caso">
+      <p class="rotulo">El caso más grande, en detalle</p>
+      <h3 class="caso__titulo">Mercado Libre, desde 2019</h3>
+
+      <ol class="etapas">
+        <li class="etapa">
+          <span class="etapa__num" aria-hidden="true"><span class="bloque bloque--rojo"></span>1</span>
+          <h4>Cómo llegó</h4>
+          <p>Me contrataron en 2019, primero a nivel local y después regional.</p>
+        </li>
+        <li class="etapa">
+          <span class="etapa__num" aria-hidden="true"><span class="bloque bloque--naranja"></span>2</span>
+          <h4>Qué se hizo</h4>
+          <p>Jornadas con equipos completos: armar la banda, ensayar, grabar. Hay dos videos del programa, que adentro de Mercado Libre se llama <b>Rock It</b>.</p>
+        </li>
+        <li class="etapa">
+          <span class="etapa__num" aria-hidden="true"><span class="bloque bloque--amarillo"></span>3</span>
+          <h4>Hasta dónde llegó</h4>
+          <p>Terminó en una banda que tocó en vivo en la fiesta de fin de año, y en el escenario del teatro Vorterix.</p>
+        </li>
+      </ol>
+
+
+      <div class="carrusel carrusel--empresas" data-carrusel>
+        <div class="carrusel__cabecera">
+          <p class="rotulo">Mercado Libre, en video</p>
+          <div class="carrusel__flechas">
+            <button type="button" class="casos__flecha" data-mover="-1" aria-label="Anterior">‹</button>
+            <button type="button" class="casos__flecha" data-mover="1" aria-label="Siguiente">›</button>
+          </div>
+        </div>
+        <ul class="carrusel__pista" data-pista tabindex="0" aria-label="Videos de Mercado Libre, deslizable">
+        <li>
+          <figure class="video-muestra video-muestra--ancho" data-video>
+            <video poster="img/video/meli-vorterix-poster.jpg" preload="none" playsinline
+                   aria-label="La banda de empleados de Mercado Libre tocando en el escenario del teatro Vorterix.">
+              <source src="img/video/meli-vorterix.mp4" type="video/mp4">
+            </video>
+            <button type="button" class="video-muestra__play" data-reproducir>
+              <span class="video-muestra__triangulo" aria-hidden="true"></span>
+              <span class="video-muestra__rotulo">Escuchalo</span>
+            </button>
+          </figure>
+        </li>
+        <li>
+          <figure class="video-muestra video-muestra--ancho" data-video>
+            <video poster="img/video/meli-rockit-poster.jpg" preload="none" playsinline
+                   aria-label="La pieza del programa Rock It de Mercado Libre.">
+              <source src="img/video/meli-rockit.mp4" type="video/mp4">
+            </video>
+            <button type="button" class="video-muestra__play" data-reproducir>
+              <span class="video-muestra__triangulo" aria-hidden="true"></span>
+              <span class="video-muestra__rotulo">Escuchalo</span>
+            </button>
+          </figure>
+        </li>
+        <li>
+          <figure class="video-muestra video-muestra--ancho" data-video>
+            <video poster="img/video/meli-convoca-poster.jpg" preload="none" playsinline
+                   aria-label="El video con el que se convoca a los empleados a sumarse.">
+              <source src="img/video/meli-convoca.mp4" type="video/mp4">
+            </video>
+            <button type="button" class="video-muestra__play" data-reproducir>
+              <span class="video-muestra__triangulo" aria-hidden="true"></span>
+              <span class="video-muestra__rotulo">Escuchalo</span>
+            </button>
+          </figure>
+        </li>
+        </ul>
+        <p class="casos__aviso">
+          Material de Mercado Libre.
+        </p>
+      </div>
+
+      <blockquote class="cita-prensa">
+        <p>Mercado Libre creó una banda de música con 160 empleados de toda la región, que tocó en vivo en la fiesta de fin de año.</p>
+        <footer>
+          <cite>El Cronista</cite>
+        </footer>
+      </blockquote>
+    </div>
+
+    <!-- lo que sí sabemos que hace como speaker -->
+    <!-- Traducido para alguien que no sabe nada de música.
+         Primero se saca de encima la objeción («no sé tocar»), después los tres
+         formatos en orden de menor a mayor, y recién al final el vocabulario de
+         RRHH — para que quien tenga que justificar la compra adentro también
+         tenga las palabras. -->
+    <div class="formatos">
+      <p class="rotulo">Qué se hace exactamente</p>
+      <h3 class="formatos__titulo">Nadie tiene que <span class="resalte">saber tocar nada.</span></h3>
+      <p class="formatos__entrada">
+        Esa es la parte que cuesta creer. Llega gente que no tocó un instrumento en su vida
+        y termina tocando con los demás. No es un show para mirar sentado: tocan ellos.
+      </p>
+
+      <ol class="formatos__lista">
+        <li class="formato">
+          <span class="formato__num" aria-hidden="true"><span class="bloque bloque--rojo"></span>1</span>
+          <h4>Una charla</h4>
+          <p>
+            Yo adelante, el equipo sentado, y los instrumentos ahí en la sala. Cuenta cómo se
+            aprende algo desde cero — y lo demuestra en el momento, con la gente que lo está
+            escuchando.
+          </p>
+        </li>
+        <li class="formato">
+          <span class="formato__num" aria-hidden="true"><span class="bloque bloque--naranja"></span>2</span>
+          <h4>Una jornada</h4>
+          <p>
+            Cada uno agarra un instrumento: guitarra, bajo, teclado, percusión. Sin saber tocar,
+            terminan haciendo un tema entre todos. Es el formato del que salen las fotos de acá arriba.
+          </p>
+        </li>
+        <li class="formato">
+          <span class="formato__num" aria-hidden="true"><span class="bloque bloque--amarillo"></span>3</span>
+          <h4>Una banda de verdad</h4>
+          <p>
+            Ensayan, graban el tema y lo tocan en vivo. En Mercado Libre terminó en un show en el
+            teatro Vorterix y en la fiesta de fin de año.
+          </p>
+        </li>
+      </ol>
+
+      <div class="formatos__cierre">
+        <p class="formatos__mientras">Y mientras tocan, sin que nadie lo nombre, pasa esto:</p>
+        <ul class="temas__lista">
+          <li>Se escuchan antes de hablar</li>
+          <li>Se reparten quién hace qué</li>
+          <li>Sostienen el tiempo del otro</li>
+          <li>Se equivocan adelante de todos y siguen</li>
+        </ul>
+        <p class="formatos__traduccion">
+          En un informe interno eso se llama <b>liderazgo, trabajo en equipo, comunicación e
+          inteligencia emocional</b>. En la sala se llama tocar un tema juntos.
+        </p>
+        <p class="temas__fuente">
+          Los temas están tomados de lo que hizo en Mercado Libre, según
+          <a class="enlace" href="https://www.lanacion.com.ar/lifestyle/era-corredor-y-se-fracturo-el-pie-un-plan-b-lo-llevo-al-exito-en-mercado-libre-nid21042021/" target="_blank" rel="noopener"><cite>La Nación</cite></a>.
+        </p>
+      </div>
+    </div>
+
+    <div class="cierre-seccion">
+      <a class="boton boton--lleno" href="#contacto">Pedí una propuesta</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═════════ 5 · SOBRE MÍ ═════════ -->
+<section class="seccion seccion--calida" id="sobre-mi" aria-labelledby="sobre-titulo">
+  <div class="contenedor">
+
+    <p class="rotulo">Sobre mí · lo contó La Nación</p>
+    <h2 class="titulo" id="sobre-titulo">Empezó con <span class="resalte">una fractura.</span></h2>
+
+    <div class="sobre__grilla">
+
+      <div class="sobre__relato" role="doc-abstract">
+        <p>
+          En agosto de 2005, Juan Pablo trabajaba en el área de finanzas de un laboratorio
+          y corría más de quince kilómetros por día. Se fracturó el pie haciendo un trámite
+          en el centro y esa parada lo obligó a mirar todo de nuevo.
+        </p>
+        <p><b>Renunció.</b></p>
+
+        <blockquote class="cita-grande">
+          <p>Renuncié a todo lo hipotéticamente seguro: sueldo mensual, obra social, vacaciones.</p>
+        </blockquote>
+
+        <p>
+          Daba clases de música desde los 21 años. Se dedicó a eso a tiempo completo y armó
+          un método propio, que mezcla tocar un instrumento con desarrollar liderazgo
+          y habilidades humanas. A principios de 2006 ya ganaba más que en su trabajo anterior.
+        </p>
+        <p>
+          Hoy tiene alumnos de 4 años y de más de 60: CEOs, emprendedores, gente de oficina,
+          chicos y adolescentes. En 2019 lo contrató Mercado Libre. Y sigue corriendo.
+        </p>
+
+        <p class="cita-corta">Sigo corriendo <b>—¡y mucho!</b></p>
+
+        <p class="fuente">
+          Todo verificado en <cite>La Nación</cite>, 21 de abril de 2021:
+          <a class="enlace" href="https://www.lanacion.com.ar/lifestyle/era-corredor-y-se-fracturo-el-pie-un-plan-b-lo-llevo-al-exito-en-mercado-libre-nid21042021/" target="_blank" rel="noopener">Era corredor y se fracturó el pie. Un plan B lo llevó al éxito en Mercado Libre</a>,
+          por Jimena Barrionuevo.
+        </p>
+      </div>
+
+      <figure class="sobre__foto">
+        <picture>
+          <source type="image/webp" srcset="img/jp-retrato-500.webp 500w, img/jp-retrato-900.webp 900w" sizes="(max-width:900px) 60vw, 30vw">
+          <img src="img/jp-retrato-900.jpg" width="900" height="1350" alt="Retrato de Juan Pablo Granatelli mirando a cámara." loading="lazy" decoding="async">
+        </picture>
+        <p class="sello-anios" aria-hidden="true"><b>20</b><span>años enseñando</span></p>
+        <figcaption>Juan Pablo Granatelli. Enseño desde 2005.</figcaption>
+      </figure>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═════════ 6 · LO QUE DICEN ═════════ -->
+<section class="seccion seccion--banda" id="lo-que-dicen" aria-labelledby="dicen-titulo">
+  <div class="contenedor">
+
+    <p class="rotulo">Lo que dicen</p>
+
+    <div class="puntaje">
+      <div class="puntaje__numero">
+        <b>5,0</b>
+        <span class="estrellas" role="img" aria-label="5 de 5 estrellas"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006Z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006Z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006Z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006Z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006Z"/></svg></span>
+      </div>
+      <p class="puntaje__texto">
+        <b>44 reseñas en Google.</b>
+        Casi el triple que cualquier academia de la zona.
+      </p>
+    </div>
+
+    <div class="resenas">
+
+      <blockquote class="resena">
+        <p>Gracias a Juan es que hoy puedo pararme enfrente de millones de personas y no se me va a mover un pelo. Más allá de la música, también me enseñó a confiar en mí.</p>
+        <footer><b>Ema F.</b><span>Alumno · hace 3 meses</span></footer>
+      </blockquote>
+
+      <blockquote class="resena">
+        <p>Lejos, Juan Pablo es el mejor en su rubro. Mis 3 hijos son alumnos y es muy grato ver cómo disfrutan sus clases y sus avances.</p>
+        <footer><b>Leandro B.</b><span>Papá de tres alumnos · hace 7 meses</span></footer>
+      </blockquote>
+
+      <blockquote class="resena">
+        <p>Tiene una paciencia para explicarle todo a principiantes. Hace un año que arranqué en sus clases y la verdad me sirvieron un montón.</p>
+        <footer><b>Lautaro M.</b><span>Empezó de cero · hace 7 meses</span></footer>
+      </blockquote>
+
+    </div>
+
+    <div class="cierre-seccion">
+      <a class="boton boton--linea" href="https://maps.google.com/?cid=17898451267528406671" target="_blank" rel="noopener">
+        <svg class="ico-estrella" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006Z"/></svg>
+        Ver las 44 reseñas en Google
+      </a>
+    </div>
+
+    <p class="nota-resenas">
+      Mis alumnos no escriben que enseño bien guitarra. Escriben que les cambié la confianza.
+    </p>
+
+  </div>
+</section>
+
+<!-- ═════════ 7 · CONTACTO ═════════ -->
+<section class="contacto" id="contacto" aria-labelledby="contacto-titulo">
+  <svg class="iso iso--color contacto__marca" viewBox="0 0 900 990" aria-hidden="true">
+    <path fill="#FFCF41" class="m m--amarillo m--curva" fill-rule="evenodd" d="M690 1 743 2 779 5 807 18 828 35 828 37 839 47 865 86 883 130 895 181 899 238 895 287 886 325 868 367 858 383 839 406 811 428 782 442 740 451 686 455 685 337 719 334 735 325 745 315 756 299 766 277 770 265 775 236 774 193 766 165 756 147 743 133 730 124 711 117 689 115 690 1Z"/>
+    <rect fill="#FFCF41" class="m m--amarillo" x="508" y="3" width="128" height="116" style="--col:2;--paso:4"/>
+    <rect fill="#FFCF41" class="m m--amarillo" x="285" y="171" width="130" height="117" style="--col:1;--paso:2"/>
+    <rect fill="#FFCF41" class="m m--amarillo" x="509" y="171" width="129" height="117" style="--col:2;--paso:3"/>
+    <rect fill="#FFCF41" class="m m--amarillo" x="509" y="337" width="128" height="118" style="--col:2;--paso:2"/>
+    <rect fill="#FFCF41" class="m m--amarillo" x="286" y="339" width="130" height="117" style="--col:1;--paso:1"/>
+    <rect fill="#F16B11" class="m m--naranja" x="286" y="507" width="130" height="116" style="--col:1;--paso:0"/>
+    <rect fill="#F16B11" class="m m--naranja" x="509" y="507" width="129" height="116" style="--col:2;--paso:1"/>
+    <rect fill="#BC1212" class="m m--rojo" x="0" y="690" width="131" height="119" style="--col:0;--paso:1"/>
+    <path fill="#BC1212" class="m m--rojo m--curva" fill-rule="evenodd" d="M287 690 418 690 419 761 417 816 413 846 401 888 386 918 370 939 350 957 317 975 284 984 250 988 184 989 169 986 168 868 225 868 240 866 252 862 265 854 274 844 280 833 287 802 287 690Z"/>
+    <rect fill="#BC1212" class="m m--rojo" x="508" y="690" width="131" height="119" style="--col:2;--paso:0"/>
+    <rect fill="#BC1212" class="m m--rojo" x="0" y="871" width="131" height="118" style="--col:0;--paso:0"/>
+  </svg>
+  <div class="contenedor contacto__grilla">
+
+    <div class="contacto__intro">
+      <p class="rotulo rotulo--claro">Contacto</p>
+      <h2 class="titulo titulo--claro" id="contacto-titulo">Escribime</h2>
+      <p class="contacto__saludo">Hola…! ¿Cómo estás? Gracias por escribirme.</p>
+
+      <a class="boton boton--wa boton--lleno boton--grande" href="https://wa.me/5491150458850?text=Hola%20Juan%20Pablo!%20Te%20escribo%20desde%20tu%20p%C3%A1gina." target="_blank" rel="noopener">
+        <svg class="ico-wa" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.9-4.45 9.9-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm0 18.15h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.18 8.18 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.25-8.23a8.2 8.2 0 0 1 8.23 8.24c0 4.54-3.7 8.23-8.23 8.23Zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.24-.64.8-.79.97-.14.16-.29.18-.54.06-.25-.13-1.05-.39-1.99-1.23-.74-.66-1.24-1.47-1.38-1.72-.15-.25-.02-.38.11-.5.11-.11.25-.29.37-.44.13-.15.17-.25.25-.42.08-.16.04-.31-.02-.43-.06-.12-.56-1.35-.77-1.84-.2-.49-.4-.42-.56-.43h-.47c-.16 0-.43.06-.65.31-.22.25-.85.83-.85 2.03s.87 2.35.99 2.51c.12.16 1.71 2.61 4.14 3.66.58.25 1.03.4 1.38.51.58.19 1.11.16 1.53.1.47-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.11-.22-.17-.47-.29Z"/></svg>
+        Escribime por WhatsApp
+      </a>
+
+      <ul class="contacto__datos">
+        <li><b>Presencial</b> Buenos Aires — lunes a sábado de 9 a 20 h</li>
+        <li><b>Online</b> Argentina, Latinoamérica y España</li>
+      </ul>
+
+      <nav class="redes" aria-label="Dónde encontrarlo">
+        <a class="red" href="https://instagram.com/coachdemusica" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/>
+            <circle cx="17.2" cy="6.8" r="1.1" class="lleno"/>
+          </svg>
+          <span>Instagram</span>
+        </a>
+
+        <a class="red" href="https://www.linkedin.com/in/juanpablogranatelli/" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <rect x="3" y="3" width="18" height="18" rx="2"/>
+            <path d="M7.5 10.5v6.5M7.5 7.2v.01M11.5 17v-4a2.2 2.2 0 0 1 4.4 0v4"/>
+          </svg>
+          <span>LinkedIn</span>
+        </a>
+
+        <a class="red" href="https://www.youtube.com/channel/UCoEwSkAOer8u7RJeR75bzcA" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <rect x="2.5" y="5.5" width="19" height="13" rx="4"/>
+            <path d="M10.6 9.4v5.2l4.6-2.6z" class="lleno"/>
+          </svg>
+          <span>YouTube</span>
+        </a>
+      </nav>
+    </div>
+
+    <form class="formulario" novalidate>
+      <p class="formulario__intro">O dejame tus datos y te escribo:</p>
+
+      <label class="campo">
+        <span class="campo__rotulo">Nombre</span>
+        <input type="text" name="nombre" autocomplete="name" required>
+      </label>
+
+      <label class="campo">
+        <span class="campo__rotulo">Teléfono</span>
+        <input type="tel" name="telefono" autocomplete="tel" inputmode="tel" required>
+      </label>
+
+      <fieldset class="campo campo--opciones">
+        <legend class="campo__rotulo">Qué estás buscando</legend>
+        <label class="opcion"><input type="radio" name="busca" value="clases" checked><span>Clases</span></label>
+        <label class="opcion"><input type="radio" name="busca" value="equipo"><span>Una experiencia para mi equipo</span></label>
+      </fieldset>
+
+      <!-- estos tres campos aparecen solos si eligió la opción de equipo -->
+      <div class="campos-empresa" hidden id="campos-empresa">
+        <label class="campo">
+          <span class="campo__rotulo">Empresa</span>
+          <input type="text" name="empresa" autocomplete="organization">
+        </label>
+        <div class="campo-par">
+          <label class="campo">
+            <span class="campo__rotulo">Cuántas personas</span>
+            <input type="number" name="personas" min="1" inputmode="numeric">
+          </label>
+          <label class="campo">
+            <span class="campo__rotulo">Fecha tentativa</span>
+            <input type="text" name="fecha" placeholder="Octubre, sin definir…">
+          </label>
+        </div>
+      </div>
+
+      <button class="boton boton--lleno boton--ancho" type="submit">Enviar por WhatsApp</button>
+    </form>
+
+  </div>
+</section>
+
+</main>
+
+<footer class="pie">
+  <div class="contenedor pie__fila">
+    <svg class="iso iso--color pie__logo" viewBox="0 0 900 990" role="img" aria-label="JP Coach de Música">
+      <path fill="#FFCF41" class="m m--amarillo m--curva" fill-rule="evenodd" d="M690 1 743 2 779 5 807 18 828 35 828 37 839 47 865 86 883 130 895 181 899 238 895 287 886 325 868 367 858 383 839 406 811 428 782 442 740 451 686 455 685 337 719 334 735 325 745 315 756 299 766 277 770 265 775 236 774 193 766 165 756 147 743 133 730 124 711 117 689 115 690 1Z"/>
+      <rect fill="#FFCF41" class="m m--amarillo" x="508" y="3" width="128" height="116" style="--col:2;--paso:4"/>
+      <rect fill="#FFCF41" class="m m--amarillo" x="285" y="171" width="130" height="117" style="--col:1;--paso:2"/>
+      <rect fill="#FFCF41" class="m m--amarillo" x="509" y="171" width="129" height="117" style="--col:2;--paso:3"/>
+      <rect fill="#FFCF41" class="m m--amarillo" x="509" y="337" width="128" height="118" style="--col:2;--paso:2"/>
+      <rect fill="#FFCF41" class="m m--amarillo" x="286" y="339" width="130" height="117" style="--col:1;--paso:1"/>
+      <rect fill="#F16B11" class="m m--naranja" x="286" y="507" width="130" height="116" style="--col:1;--paso:0"/>
+      <rect fill="#F16B11" class="m m--naranja" x="509" y="507" width="129" height="116" style="--col:2;--paso:1"/>
+      <rect fill="#BC1212" class="m m--rojo" x="0" y="690" width="131" height="119" style="--col:0;--paso:1"/>
+      <path fill="#BC1212" class="m m--rojo m--curva" fill-rule="evenodd" d="M287 690 418 690 419 761 417 816 413 846 401 888 386 918 370 939 350 957 317 975 284 984 250 988 184 989 169 986 168 868 225 868 240 866 252 862 265 854 274 844 280 833 287 802 287 690Z"/>
+      <rect fill="#BC1212" class="m m--rojo" x="508" y="690" width="131" height="119" style="--col:2;--paso:0"/>
+      <rect fill="#BC1212" class="m m--rojo" x="0" y="871" width="131" height="118" style="--col:0;--paso:0"/>
+    </svg>
+
+    <nav class="redes redes--pie" aria-label="Dónde encontrarlo">
+      <a class="red" href="https://instagram.com/coachdemusica" target="_blank" rel="noopener" aria-label="Instagram">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/>
+          <circle cx="17.2" cy="6.8" r="1.1" class="lleno"/>
+        </svg>
+      </a>
+      <a class="red" href="https://www.linkedin.com/in/juanpablogranatelli/" target="_blank" rel="noopener" aria-label="LinkedIn">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="3" y="3" width="18" height="18" rx="2"/>
+          <path d="M7.5 10.5v6.5M7.5 7.2v.01M11.5 17v-4a2.2 2.2 0 0 1 4.4 0v4"/>
+        </svg>
+      </a>
+      <a class="red" href="https://www.youtube.com/channel/UCoEwSkAOer8u7RJeR75bzcA" target="_blank" rel="noopener" aria-label="YouTube">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="2.5" y="5.5" width="19" height="13" rx="4"/>
+          <path d="M10.6 9.4v5.2l4.6-2.6z" class="lleno"/>
+        </svg>
+      </a>
+    </nav>
+
+    <p class="pie__legal">
+      JP Coach de Música · Buenos Aires
+    </p>
+  </div>
+</footer>
+
+<!-- barra fija de acción, sólo en celular -->
+<a class="barra-fija" href="https://wa.me/5491150458850?text=Hola%20Juan%20Pablo!%20Te%20escribo%20desde%20tu%20p%C3%A1gina." target="_blank" rel="noopener" id="barra-fija">
+  <svg class="ico-wa" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.9-4.45 9.9-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm0 18.15h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.18 8.18 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.25-8.23a8.2 8.2 0 0 1 8.23 8.24c0 4.54-3.7 8.23-8.23 8.23Zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.24-.64.8-.79.97-.14.16-.29.18-.54.06-.25-.13-1.05-.39-1.99-1.23-.74-.66-1.24-1.47-1.38-1.72-.15-.25-.02-.38.11-.5.11-.11.25-.29.37-.44.13-.15.17-.25.25-.42.08-.16.04-.31-.02-.43-.06-.12-.56-1.35-.77-1.84-.2-.49-.4-.42-.56-.43h-.47c-.16 0-.43.06-.65.31-.22.25-.85.83-.85 2.03s.87 2.35.99 2.51c.12.16 1.71 2.61 4.14 3.66.58.25 1.03.4 1.38.51.58.19 1.11.16 1.53.1.47-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.11-.22-.17-.47-.29Z"/></svg>
+  Escribime por WhatsApp
+</a>
+
+<script src="js/maqueta.js" defer></script>
+</body>
+</html>

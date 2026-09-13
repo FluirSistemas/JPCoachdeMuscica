@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 990" role="img" aria-label="JP Coach de Música">
+  <path fill="#FFCF41" class="m m--amarillo m--curva" fill-rule="evenodd" d="M690 1 743 2 779 5 807 18 828 35 828 37 839 47 865 86 883 130 895 181 899 238 895 287 886 325 868 367 858 383 839 406 811 428 782 442 740 451 686 455 685 337 719 334 735 325 745 315 756 299 766 277 770 265 775 236 774 193 766 165 756 147 743 133 730 124 711 117 689 115 690 1Z"/>
+  <rect fill="#FFCF41" class="m m--amarillo" x="508" y="3" width="128" height="116" style="--col:2;--paso:4"/>
+  <rect fill="#FFCF41" class="m m--amarillo" x="285" y="171" width="130" height="117" style="--col:1;--paso:2"/>
+  <rect fill="#FFCF41" class="m m--amarillo" x="509" y="171" width="129" height="117" style="--col:2;--paso:3"/>
+  <rect fill="#FFCF41" class="m m--amarillo" x="509" y="337" width="128" height="118" style="--col:2;--paso:2"/>
+  <rect fill="#FFCF41" class="m m--amarillo" x="286" y="339" width="130" height="117" style="--col:1;--paso:1"/>
+  <rect fill="#F16B11" class="m m--naranja" x="286" y="507" width="130" height="116" style="--col:1;--paso:0"/>
+  <rect fill="#F16B11" class="m m--naranja" x="509" y="507" width="129" height="116" style="--col:2;--paso:1"/>
+  <rect fill="#BC1212" class="m m--rojo" x="0" y="690" width="131" height="119" style="--col:0;--paso:1"/>
+  <path fill="#BC1212" class="m m--rojo m--curva" fill-rule="evenodd" d="M287 690 418 690 419 761 417 816 413 846 401 888 386 918 370 939 350 957 317 975 284 984 250 988 184 989 169 986 168 868 225 868 240 866 252 862 265 854 274 844 280 833 287 802 287 690Z"/>
+  <rect fill="#BC1212" class="m m--rojo" x="508" y="690" width="131" height="119" style="--col:2;--paso:0"/>
+  <rect fill="#BC1212" class="m m--rojo" x="0" y="871" width="131" height="118" style="--col:0;--paso:0"/>
+</svg>
