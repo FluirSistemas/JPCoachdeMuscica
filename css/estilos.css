@@ -52,7 +52,7 @@ body[data-paleta="b"] {
      3,65:1 sobre blanco, 3,12:1 sobre el crema, 4,52:1 sobre el oscuro. */
   --acento-linea: #BF7500;
   --sombra-foto:  0 18px 50px rgba(28,31,38,.13);
-  --sombra-recorte: 0 10px 22px rgba(28,31,38,.16);
+  --fondo-retrato: radial-gradient(75% 60% at 63% 30%, #FFFFFF 0%, #F4F1EC 55%, #ECE7DF 100%);
 }
 
 /* A — «la que ya es suya». Sus colores, sobre negro. */
@@ -69,7 +69,7 @@ body[data-paleta="a"] {
   /* sobre negro el ámbar del logo ya da 9,75:1: no hace falta bajarlo */
   --acento-linea: var(--acento);
   --sombra-foto:  0 18px 50px rgba(0,0,0,.6);
-  --sombra-recorte: 0 16px 32px rgba(0,0,0,.5);
+  --fondo-retrato: radial-gradient(75% 60% at 63% 30%, #303030 0%, #1C1C1C 50%, #151515 100%);
 }
 
 /* C — «la del contraste». Azul noche con el ámbar del logo. */
@@ -86,7 +86,7 @@ body[data-paleta="c"] {
   /* sobre el azul noche da 8,47:1: tampoco hace falta bajarlo */
   --acento-linea: var(--acento);
   --sombra-foto:  0 18px 50px rgba(6,10,26,.55);
-  --sombra-recorte: 0 16px 32px rgba(6,10,26,.5);
+  --fondo-retrato: radial-gradient(75% 60% at 63% 30%, #33427A 0%, #1E2A57 50%, #16214A 100%);
 }
 
 /* ───────── Base ───────── */
@@ -495,10 +495,11 @@ body[data-paleta="b"] .cabecera__tema .ico-luna { display: block; }
 .hero__foto { position: relative; margin: 0; }
 /* 2/3 es la proporción exacta del archivo: así no se le corta la cabeza */
 /* en celular va cuadrada: a 4/5 medía 425 px y empujaba los datos más abajo */
-/* la foto va recortada, sin el fondo de estudio: la sombra sigue la silueta y no la caja.
-   Es más corta que la de las fotos con caja: con 50 px de desenfoque, en la paleta
-   clara quedaba un halo gris alrededor de JP. */
-.hero__foto img { width: 100%; object-fit: cover; object-position: 50% 15%; aspect-ratio: 1; filter: drop-shadow(var(--sombra-recorte)); }
+/* la foto va recortada (sin el papel beige del estudio) sobre un fondo de estudio que
+   cambia con la paleta. Sin fondo, el marco corrido se veía entero alrededor de la nada
+   y el cuerpo terminaba en un corte recto flotando arriba de la línea del marco. */
+.hero__foto picture { display: block; background: var(--fondo-retrato); }
+.hero__foto img { display: block; width: 100%; object-fit: cover; object-position: 50% 15%; aspect-ratio: 1; }
 @media (min-width: 900px) { .hero__foto img { aspect-ratio: 2/3; object-position: 50% 50%; } }
 /* el marco fino desplazado: el marco rojo vacío que ya usa en Instagram */
 .hero__marco {
