@@ -1133,11 +1133,14 @@ body[data-paleta="b"] .cabecera__tema .ico-luna { display: block; }
 .formulario__aviso { margin: 0; font-size: 13px; color: color-mix(in srgb, var(--texto-claro) 60%, transparent); }
 
 .contacto__abrir { display: none; }
-/* En celular el camino es el botón de WhatsApp: el formulario queda plegado, las
-   redes ya están en el pie y el isotipo decorativo reservaba ~270 px vacíos. */
+/* En celular el camino es el botón de WhatsApp: el formulario queda plegado y las
+   redes ya están en el pie. El isotipo que ecualiza también va, abajo a la derecha
+   como en escritorio: más chico (170 px) y con su banda reservada, así no pisa los
+   botones ni el formulario abierto. Suma 187 px al final de la página. */
 @media (max-width: 759px) {
-  .contacto { padding-bottom: var(--l); }
-  .contacto__marca, .contacto .redes { display: none; }
+  .contacto { --marca: 170px; padding-bottom: calc(var(--marca) + var(--m) + var(--s)); }
+  .contacto__marca { right: var(--s); bottom: var(--m); }
+  .contacto .redes { display: none; }
   .formulario:not(.esta-abierto) { display: none; }
   .contacto__abrir { display: inline-flex; margin-top: var(--xs); color: var(--texto-claro); border-color: rgba(255,255,255,.45); }
   .contacto__abrir:hover { background: var(--texto-claro); color: var(--fondo-oscuro); }
