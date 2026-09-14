@@ -221,27 +221,38 @@ img { height: auto; }
   transition: opacity .7s ease;
 }
 .fondo-foto.esta-visible { opacity: 1; }
-.fondo-foto img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 42%; }
+/* el <picture> va estirado a toda la pantalla: si queda en línea, el 100 % de alto de la
+   foto no tiene contra qué medirse y se ve en su 4:3 (en celular, sólo la franja de arriba) */
+.fondo-foto picture { position: absolute; top: 0; right: 0; bottom: 0; left: 0; }
+.fondo-foto img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 42%; }
 .fondo-foto::after {
   content: ""; position: absolute; inset: 0;
-  /* Velo bajo: la foto tiene que verse. Se funde hacia el color de la paleta
-     en vez de "oscurecer" a secas — en las oscuras oscurece, en la clara aclara,
-     que es lo que hace falta para que el texto negro siga leyendose. */
+  /* Se funde hacia el color de la paleta en vez de "oscurecer" a secas — en las
+     oscuras oscurece, en la clara aclara, que es lo que hace falta para que el
+     texto negro siga leyéndose. Casi parejo de arriba a abajo: el fondo es fijo,
+     así que cualquier texto pasa por cualquier altura. Medido el 14-sep-2026 con
+     la foto cubriendo toda la pantalla: en el peor 1 % de la pantalla, el gris de
+     Academia queda en 5,0 en la clara y 5,3 en la oscura (antes, 3,2 y 2,7). */
   background:
     linear-gradient(to bottom,
-      color-mix(in srgb, var(--fondo) 80%, transparent) 0%,
-      color-mix(in srgb, var(--fondo) 62%, transparent) 45%,
-      color-mix(in srgb, var(--fondo) 78%, transparent) 100%);
+      color-mix(in srgb, var(--fondo) 84%, transparent) 0%,
+      color-mix(in srgb, var(--fondo) 80%, transparent) 45%,
+      color-mix(in srgb, var(--fondo) 84%, transparent) 100%);
 }
-/* sobre las paletas oscuras la foto pesa más: se le sube el velo */
+/* sobre las paletas oscuras la misma foto da más contraste: el velo puede ser más bajo */
 body[data-paleta="a"] .fondo-foto::after,
 body[data-paleta="c"] .fondo-foto::after {
   background:
     linear-gradient(to bottom,
-      color-mix(in srgb, var(--fondo) 78%, transparent) 0%,
-      color-mix(in srgb, var(--fondo) 58%, transparent) 45%,
-      color-mix(in srgb, var(--fondo) 76%, transparent) 100%);
+      color-mix(in srgb, var(--fondo) 80%, transparent) 0%,
+      color-mix(in srgb, var(--fondo) 72%, transparent) 45%,
+      color-mix(in srgb, var(--fondo) 78%, transparent) 100%);
 }
+/* Arriba de la foto, el gris secundario de la paleta no alcanza (rótulos, entrada,
+   ficha, pie de las muestras): en Academia va un escalón más cerca del texto. */
+body[data-paleta="a"] #academia { --texto-suave: #D4CFC7; }
+body[data-paleta="b"] #academia { --texto-suave: #3B4048; }
+body[data-paleta="c"] #academia { --texto-suave: #D4DDF0; }
 @media (prefers-reduced-motion: reduce) { .fondo-foto { transition: none; } }
 
 /* ───────── El isotipo, en SVG ─────────
