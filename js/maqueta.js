@@ -80,100 +80,63 @@
      con la música de verdad. Es una página de música; el ecualizador tiene que
      ecualizar algo.
 
-     LA REGLA QUE MANDA: el audio del video NUNCA pasa por Web Audio.
-     Se reproduce nativo, como cualquier video, y el analizador escucha una
-     COPIA (captureStream). Así el sonido no depende de ningún contexto de
-     audio: si Web Audio falla, arranca tarde o queda suspendido, lo único que
-     no pasa es que el fondo se mueva. El video suena igual.
+     El espectro de cada video viene calculado de antemano, en
+     img/video/<nombre>.espectro.bin (lo arma 05-web/_fuente/espectro-videos.py),
+     y se lee según el segundo que va sonando. El audio del video no pasa por
+     ningún lado: suena nativo, como cualquier video.
 
-     (La versión anterior enrutaba el video por createMediaElementSource. Eso
-     hace que el sonido dependa del estado del contexto, y Chrome arranca el
-     hilo de audio con retraso y descarta lo que suena antes: video mudo, o
-     audio que aparece tarde. No volver a eso.) */
+     (Antes se analizaba en vivo con captureStream. En Safari, iPhone incluido,
+     no existe, así que el fondo no se movía; y en Chrome el analizador saturaba
+     y las columnas quedaban clavadas arriba. Pasar el video por Web Audio
+     tampoco sirve: en el iPhone lo deja mudo con el silenciador puesto.) */
 
-  var audioCtx = null, analizador = null, espectro = null;
+  var espectros = {};            // url del .bin → promesa del espectro (null si no hay)
   var sonando = null, lazo = null;
 
-  function contextoListo() {
-    if (quieto) return false;
-    if (!audioCtx) {
-      var AC = window.AudioContext || window.webkitAudioContext;
-      if (!AC) return false;
-      try {
-        audioCtx = new AC();
-        analizador = audioCtx.createAnalyser();
-        analizador.fftSize = 256;
-        analizador.smoothingTimeConstant = 0.72;
-        espectro = new Uint8Array(analizador.frequencyBinCount);
-        // un analizador suelto no procesa: hay que enchufarlo a la salida.
-        // Va a través de una ganancia en cero, así no suma nada a lo que ya
-        // suena nativo desde el propio <video>.
-        var mudo = audioCtx.createGain();
-        mudo.gain.value = 0;
-        analizador.connect(mudo);
-        mudo.connect(audioCtx.destination);
-      } catch (err) { audioCtx = null; return false; }
+  function cargarEspectro(video) {
+    var fuente = video.querySelector('source');
+    var src = video.currentSrc || (fuente && fuente.src) || '';
+    var url = src.replace(/\.mp4(\?.*)?$/, '.espectro.bin');
+    if (!url || url === src || !window.fetch) return Promise.resolve(null);
+    if (!espectros[url]) {
+      espectros[url] = fetch(url)
+        .then(function (r) { if (!r.ok) throw new Error(r.status); return r.arrayBuffer(); })
+        .then(function (buf) {
+          var b = new Uint8Array(buf);
+          if (b.length < 5 || b[0] !== 86 || b[1] !== 85) return null;   // cabecera "VU"
+          return { fps: b[2], bandas: b[3], datos: b.subarray(4), cuadros: Math.floor((b.length - 4) / b[3]) };
+        })
+        .catch(function () { return null; });
     }
-    if (audioCtx.state === 'suspended') audioCtx.resume();
-    return true;
+    return espectros[url];
   }
 
-  /* Engancha una copia del audio del video al analizador. Devuelve true si
-     quedó enganchado. Sólo usa captureStream sin prefijo: el mozCaptureStream
-     viejo de Firefox sí roba el audio del elemento, y eso es justo lo que no
-     queremos. Sin captureStream, no hay ecualizador reactivo — pero hay audio. */
-  function engancharCopia(video) {
-    if (video._copia) return true;
-    if (!contextoListo()) return false;
-    if (typeof video.captureStream !== 'function') return false;
-    try {
-      var stream = video._stream || (video._stream = video.captureStream());
-      if (!stream.getAudioTracks().length) return false;   // la pista aparece cuando carga: se reintenta
-      video._copia = audioCtx.createMediaStreamSource(stream);
-      video._copia.connect(analizador);
-      return true;
-    } catch (err) { return false; }
-  }
-
-  function arrancarLazo() {
-    if (lazo || !vumetros.length) return;
+  function arrancarLazo(video, esp) {
+    if (quieto || !esp || !vumetros.length) return;
+    if (sonando === video && lazo) return;
+    pararLazo();
+    sonando = video;
     var barra = vumetros[0];
-    var cs = getComputedStyle(barra);
-    var pasos = parseInt(cs.getPropertyValue('--vu-pasos'), 10) || 12;
-    var cols = barra.querySelectorAll('i');
-    var previos = new Array(cols.length).fill(-1);
+    var cols = barra.children;               // viva: si cambia el ancho y se rearma, la sigue
+    var previos = [], pasos = 12;
     barra.classList.add('esta-escuchando');
 
-    var planos = 0;
-
     function pintar() {
-      if (!sonando || sonando.paused || sonando.ended) { pararLazo(); return; }
-      analizador.getByteFrequencyData(espectro);
-      var bins = espectro.length;
-
-      /* Si el espectro viene plano un rato largo CON el video avanzando de
-         verdad, algo no deja analizarlo: se vuelve a la animación de siempre
-         para que el fondo no quede clavado. Mientras el video todavía carga
-         no cuenta — antes contaba, y el lazo se rendía justo antes de que
-         empezara a sonar. */
-      var min = 255, max = 0;
-      for (var k = 0; k < bins; k++) {
-        if (espectro[k] < min) min = espectro[k];
-        if (espectro[k] > max) max = espectro[k];
+      if (sonando !== video || video.paused || video.ended) { pararLazo(); return; }
+      if (previos.length !== cols.length) {
+        previos = new Array(cols.length).fill(-1);
+        pasos = parseInt(getComputedStyle(barra).getPropertyValue('--vu-pasos'), 10) || 12;
       }
-      var avanzando = sonando.readyState >= 3 && sonando.currentTime > 0.4;
-      if (max - min < 4) {
-        if (avanzando && ++planos > 150) { pararLazo(); return; }
-      } else {
-        planos = 0;
-      }
-
+      var posicion = Math.max(0, video.currentTime * esp.fps);
+      var c0 = Math.min(esp.cuadros - 1, Math.floor(posicion));
+      var c1 = Math.min(esp.cuadros - 1, c0 + 1);
+      var mezcla = posicion - Math.floor(posicion);
       for (var i = 0; i < cols.length; i++) {
-        // reparto logarítmico: los graves ocupan más columnas, como en un analizador
-        var t = i / cols.length;
-        var b = Math.min(bins - 1, Math.floor(Math.pow(t, 1.9) * bins * 0.7));
-        var v = espectro[b] / 255;
-        var n = Math.max(1, Math.min(pasos, Math.round(v * pasos * 1.35)));
+        // cada columna toma su banda: graves a la izquierda, agudos a la derecha
+        var banda = Math.min(esp.bandas - 1, Math.floor(i / cols.length * esp.bandas));
+        var v = (esp.datos[c0 * esp.bandas + banda] * (1 - mezcla) +
+                 esp.datos[c1 * esp.bandas + banda] * mezcla) / 255;
+        var n = Math.max(1, Math.min(pasos, Math.round(v * pasos)));
         if (n !== previos[i]) {            // sólo se escribe si cambió de bloque
           previos[i] = n;
           cols[i].style.clipPath = 'inset(calc(' + (pasos - n) + ' * var(--vu-paso)) 0 0 0)';
@@ -199,7 +162,9 @@
     if (!video || !boton) return;
 
     function escuchar() {
-      if (engancharCopia(video)) { sonando = video; arrancarLazo(); }
+      cargarEspectro(video).then(function (esp) {
+        if (!video.paused && !video.ended) arrancarLazo(video, esp);
+      });
     }
 
     boton.addEventListener('click', function () {
@@ -207,15 +172,12 @@
       Array.prototype.forEach.call(document.querySelectorAll('[data-video] video'), function (otro) {
         if (otro !== video) { otro.pause(); otro.closest('[data-video]').classList.remove('esta-sonando'); }
       });
-      contextoListo();                          // dentro del gesto: acá el resume sí funciona
+      cargarEspectro(video);                   // se pide ya: está listo cuando arranca el sonido
       video.controls = true;
       video.play().catch(function () {});
     });
 
     video.addEventListener('play', function () { caja.classList.add('esta-sonando'); escuchar(); });
-    // con preload="none" la pista de audio aparece recién cuando el video carga:
-    // se reintenta en cada uno de estos hasta que engancha
-    video.addEventListener('loadeddata', escuchar);
     video.addEventListener('playing', escuchar);
 
     ['pause', 'ended'].forEach(function (ev) {
