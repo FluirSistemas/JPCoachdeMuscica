@@ -1143,12 +1143,14 @@ body[data-paleta="b"] .cabecera__tema .ico-luna { display: block; }
 
 .contacto__abrir { display: none; }
 /* En celular el camino es el botón de WhatsApp: el formulario queda plegado y las
-   redes ya están en el pie. El isotipo que ecualiza también va, abajo a la derecha
-   como en escritorio: más chico (170 px) y con su banda reservada, así no pisa los
-   botones ni el formulario abierto. Suma 187 px al final de la página. */
+   redes ya están en el pie. El isotipo que ecualiza va chico (72 px), al lado de
+   «Prefiero dejar mi contacto»: a 170 px dejaba una banda vacía de 187 px. Con el
+   formulario abierto baja y se reserva su lugar debajo, así no pisa «Enviar». */
 @media (max-width: 759px) {
-  .contacto { --marca: 170px; padding-bottom: calc(var(--marca) + var(--m) + var(--s)); }
-  .contacto__marca { right: var(--s); bottom: var(--m); }
+  .contacto { --marca: 72px; padding-bottom: var(--l); }
+  .contacto__marca { right: var(--s); bottom: var(--l); }
+  .contacto:has(.formulario.esta-abierto) { padding-bottom: calc(var(--marca) + var(--m) + var(--s)); }
+  .contacto:has(.formulario.esta-abierto) .contacto__marca { bottom: var(--m); }
   .contacto .redes { display: none; }
   .formulario:not(.esta-abierto) { display: none; }
   .contacto__abrir { display: inline-flex; margin-top: var(--xs); color: var(--texto-claro); border-color: rgba(255,255,255,.45); }
