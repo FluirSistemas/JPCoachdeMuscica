@@ -890,6 +890,15 @@ body[data-paleta="b"] .cabecera__tema .ico-luna { display: block; }
 }
 .formato h4 { margin: 8px 0 6px; font-size: clamp(17px, 2.4vw, 20px); font-weight: 700; }
 .formato p { margin: 0; color: var(--texto-suave); font-size: 16px; }
+/* En celular los tres formatos van uno al lado del otro, en cajas: uno debajo del
+   otro ocupaban 445 px y así 244. Las columnas quedan angostas, pero son frases cortas. */
+@media (max-width: 799px) {
+  .formatos__lista { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+  .formato { border: 1px solid var(--borde); background: var(--fondo-alt); padding: 12px 10px 14px; }
+  .formato__num { font-size: 13px; }
+  .formato h4 { margin: 8px 0 6px; font-size: 15px; line-height: 1.2; }
+  .formato p { font-size: 13px; line-height: 1.4; hyphens: auto; text-wrap: pretty; }
+}
 
 .formatos__cierre { margin-top: var(--m); }
 .formatos__mientras { margin: 0 0 var(--xs); font-weight: 700; }
