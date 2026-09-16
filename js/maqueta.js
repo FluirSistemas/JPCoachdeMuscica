@@ -445,21 +445,66 @@
       var ventana = window.open(url, '_blank');
       if (ventana) ventana.opener = null;
       else location.href = url;
+      // en celular el formulario estaba en la ventana: ya se mandó, se cierra
+      var ventanaFormulario = document.getElementById('dialogo-formulario');
+      if (ventanaFormulario && ventanaFormulario.open) ventanaFormulario.close();
     });
   }
 
-  /* ── Formulario plegado en celular ──
+  /* ── Formulario en ventana, en celular ──
      En celular el camino principal es el botón de WhatsApp: el formulario queda
-     detrás de «Prefiero dejar mi contacto». En escritorio se ve siempre. */
+     detrás de «Prefiero dejar mi contacto» y se abre en una ventana encima de la
+     página (<dialog>, que ya trae el fondo oscuro, Escape y el foco atrapado).
+     El formulario es uno solo: al abrir la ventana se muda adentro y al cerrarla
+     vuelve a su lugar, así en escritorio sigue en su columna. */
   var abrirFormulario = document.querySelector('[data-abrir-formulario]');
+  var dialogo = document.getElementById('dialogo-formulario');
   if (abrirFormulario && form) {
+    var lugarFormulario = document.createComment(' lugar del formulario ');
+    form.parentNode.insertBefore(lugarFormulario, form);
+    var conVentana = !!dialogo && typeof dialogo.showModal === 'function';
+
     abrirFormulario.addEventListener('click', function () {
-      form.classList.add('esta-abierto');
       abrirFormulario.setAttribute('aria-expanded', 'true');
-      abrirFormulario.hidden = true;
-      var primero = form.querySelector('input');
-      if (primero) primero.focus();
+      if (conVentana) {
+        // sin llevar el foco a «Nombre»: así no salta el teclado encima de la
+        // ventana y se ve el formulario entero; el teclado sale al tocar un campo
+        dialogo.querySelector('.dialogo-formulario__caja').appendChild(form);
+        form.classList.add('esta-abierto');
+        dialogo.showModal();
+      } else {
+        // navegadores sin <dialog>: se despliega en su lugar, como antes
+        form.classList.add('esta-abierto');
+        abrirFormulario.hidden = true;
+        var primero = form.querySelector('input');
+        if (primero) primero.focus();
+      }
     });
+
+    if (conVentana) {
+      dialogo.addEventListener('close', function () {
+        lugarFormulario.parentNode.insertBefore(form, lugarFormulario.nextSibling);
+        form.classList.remove('esta-abierto');
+        abrirFormulario.setAttribute('aria-expanded', 'false');
+        abrirFormulario.focus();
+      });
+      // tocar el fondo oscuro, afuera de la caja, también la cierra (si el toque
+      // empezó ahí: arrastrar desde un campo hasta afuera no la cierra)
+      var tocoFondo = false;
+      dialogo.addEventListener('pointerdown', function (e) { tocoFondo = e.target === dialogo; });
+      dialogo.addEventListener('click', function (e) {
+        if (tocoFondo && e.target === dialogo) dialogo.close();
+        tocoFondo = false;
+      });
+      Array.prototype.forEach.call(dialogo.querySelectorAll('[data-cerrar-formulario]'), function (b) {
+        b.addEventListener('click', function () { dialogo.close(); });
+      });
+      // si la pantalla pasa a escritorio con la ventana abierta, el formulario vuelve a su columna
+      var celular = window.matchMedia('(max-width: 759px)');
+      var alCambiar = function (e) { if (!e.matches && dialogo.open) dialogo.close(); };
+      if (celular.addEventListener) celular.addEventListener('change', alCambiar);
+      else if (celular.addListener) celular.addListener(alCambiar);
+    }
   }
 
   /* ── Tema claro u oscuro ──

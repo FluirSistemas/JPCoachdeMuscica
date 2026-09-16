@@ -621,7 +621,7 @@
         Escribime por WhatsApp
       </a>
 
-      <button type="button" class="boton boton--linea contacto__abrir" data-abrir-formulario aria-controls="formulario-contacto" aria-expanded="false">Prefiero dejar mi contacto</button>
+      <button type="button" class="boton boton--linea contacto__abrir" data-abrir-formulario aria-controls="dialogo-formulario" aria-haspopup="dialog" aria-expanded="false">Prefiero dejar mi contacto</button>
 
       <nav class="redes" aria-label="Dónde encontrarlo">
         <a class="red" href="https://instagram.com/coachdemusica" target="_blank" rel="noopener">
@@ -689,6 +689,20 @@
 
       <button class="boton boton--lleno boton--ancho" type="submit">Enviar por WhatsApp</button>
     </form>
+
+    <!-- En celular el formulario se abre en esta ventana: al tocar «Prefiero dejar
+         mi contacto» se muda adentro, y al cerrarla vuelve a su lugar. En escritorio
+         la ventana no se usa: el formulario está siempre en su columna. -->
+    <dialog class="dialogo-formulario" id="dialogo-formulario" aria-labelledby="dialogo-formulario-titulo">
+      <div class="dialogo-formulario__caja">
+        <div class="dialogo-formulario__cabeza">
+          <h2 class="dialogo-formulario__titulo" id="dialogo-formulario-titulo">Dejame tus datos y te escribo</h2>
+          <button type="button" class="dialogo-formulario__cerrar" data-cerrar-formulario aria-label="Cerrar">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+          </button>
+        </div>
+      </div>
+    </dialog>
 
   </div>
 </section>

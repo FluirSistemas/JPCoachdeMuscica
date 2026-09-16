@@ -1142,10 +1142,11 @@ body[data-paleta="b"] .cabecera__tema .ico-luna { display: block; }
 .formulario__aviso { margin: 0; font-size: 13px; color: color-mix(in srgb, var(--texto-claro) 60%, transparent); }
 
 .contacto__abrir { display: none; }
-/* En celular el camino es el botón de WhatsApp: el formulario queda plegado y las
-   redes ya están en el pie. El isotipo que ecualiza va chico (72 px), al lado de
-   «Prefiero dejar mi contacto»: a 170 px dejaba una banda vacía de 187 px. Con el
-   formulario abierto baja y se reserva su lugar debajo, así no pisa «Enviar». */
+/* En celular el camino es el botón de WhatsApp: el formulario se abre en una ventana
+   desde «Prefiero dejar mi contacto» y las redes ya están en el pie. El isotipo que
+   ecualiza va chico (72 px), al lado de ese botón: a 170 px dejaba una banda vacía
+   de 187 px. En navegadores sin ventanas (<dialog>) el formulario se despliega en su
+   lugar: ahí el isotipo baja y se reserva su lugar debajo, así no pisa «Enviar». */
 @media (max-width: 759px) {
   .contacto { --marca: 72px; padding-bottom: var(--l); }
   .contacto__marca { right: var(--s); bottom: var(--l); }
@@ -1162,6 +1163,34 @@ body[data-paleta="b"] .cabecera__tema .ico-luna { display: block; }
 @media (max-width: 379px) {
   .contacto { --marca: 58px; }
 }
+
+/* La ventana del formulario (sólo se abre en celular). Pegada abajo, como las hojas
+   que abren los celulares, con el mismo fondo oscuro del contacto en los dos temas. */
+.dialogo-formulario {
+  width: 100%; max-width: 100%;
+  max-height: calc(100vh - 24px); max-height: calc(100dvh - 24px);
+  margin: auto 0 0; padding: 0; border: 0; border-top: 4px solid var(--acento);
+  background: var(--fondo-oscuro); color: var(--texto-claro);
+  overflow-y: auto; overscroll-behavior: contain;
+}
+.dialogo-formulario::backdrop { background: rgba(0, 0, 0, .72); }
+.dialogo-formulario[open] { animation: subirVentana .28s ease-out; }
+@keyframes subirVentana { from { transform: translateY(28px); opacity: 0; } to { transform: none; opacity: 1; } }
+.dialogo-formulario__caja { padding: var(--s) var(--s) calc(var(--m) + env(safe-area-inset-bottom)); }
+.dialogo-formulario__cabeza { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--s); margin-bottom: var(--s); }
+.dialogo-formulario__titulo {
+  margin: 0; font-family: "Bebas Neue", Impact, sans-serif; font-weight: 400;
+  font-size: 34px; line-height: 1; text-transform: uppercase;
+}
+.dialogo-formulario__cerrar {
+  flex: none; width: 44px; height: 44px; display: grid; place-items: center; padding: 0;
+  background: none; border: 2px solid rgba(255,255,255,.3); color: var(--texto-claro); cursor: pointer;
+}
+.dialogo-formulario__cerrar:hover, .dialogo-formulario__cerrar:focus-visible { border-color: var(--acento); }
+.dialogo-formulario__cerrar svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; }
+.dialogo-formulario .formulario__intro { display: none; }   /* el título de la ventana ya lo dice */
+body:has(.dialogo-formulario[open]) { overflow: hidden; }   /* que no se mueva la página de atrás */
+@media (prefers-reduced-motion: reduce) { .dialogo-formulario[open] { animation: none; } }
 
 /* Los textos chicos que caen sobre el vúmetro necesitan cuerpo, no color:
    subir el tamaño rinde más que aclararlos, y no rompe la jerarquía. */
