@@ -1150,8 +1150,10 @@ body[data-paleta="b"] .cabecera__tema .ico-luna { display: block; }
 @media (max-width: 759px) {
   .contacto { --marca: 72px; padding-bottom: var(--l); }
   .contacto__marca { right: var(--s); bottom: var(--l); }
-  .contacto:has(.formulario.esta-abierto) { padding-bottom: calc(var(--marca) + var(--m) + var(--s)); }
-  .contacto:has(.formulario.esta-abierto) .contacto__marca { bottom: var(--m); }
+  /* sólo con el formulario desplegado en su lugar (sin <dialog>): dentro de la
+     ventana también es descendiente de la sección, y la agrandaba 89 px por detrás */
+  .contacto:has(.contacto__grilla > .formulario.esta-abierto) { padding-bottom: calc(var(--marca) + var(--m) + var(--s)); }
+  .contacto:has(.contacto__grilla > .formulario.esta-abierto) .contacto__marca { bottom: var(--m); }
   .contacto .redes { display: none; }
   .formulario:not(.esta-abierto) { display: none; }
   /* siempre en su renglón: en celulares anchos se ponía al lado de WhatsApp y el logo lo pisaba */
