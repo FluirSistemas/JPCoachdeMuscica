@@ -1153,9 +1153,14 @@ body[data-paleta="b"] .cabecera__tema .ico-luna { display: block; }
   .contacto:has(.formulario.esta-abierto) .contacto__marca { bottom: var(--m); }
   .contacto .redes { display: none; }
   .formulario:not(.esta-abierto) { display: none; }
-  .contacto__abrir { display: inline-flex; margin-top: var(--xs); color: var(--texto-claro); border-color: rgba(255,255,255,.45); }
+  /* siempre en su renglón: en celulares anchos se ponía al lado de WhatsApp y el logo lo pisaba */
+  .contacto__abrir { display: flex; width: fit-content; margin-top: var(--xs); color: var(--texto-claro); border-color: rgba(255,255,255,.45); }
   .contacto__abrir:hover { background: var(--texto-claro); color: var(--fondo-oscuro); }
   .contacto__abrir[hidden] { display: none; }
+}
+/* en los celulares más angostos, a 72 px quedaba pegado al botón (2 px de aire) */
+@media (max-width: 379px) {
+  .contacto { --marca: 58px; }
 }
 
 /* Los textos chicos que caen sobre el vúmetro necesitan cuerpo, no color:
