@@ -150,7 +150,7 @@
     <ul class="clientes__fila">
       <li class="marca-cliente">Mercado&nbsp;Libre</li>
       <li class="marca-cliente">Accelium</li>
-      <li class="marca-cliente">Securitas</li>
+      <li class="marca-cliente">Accenture</li>
       <li class="marca-cliente">LifeRocks</li>
       <li class="marca-cliente">Taraborelli</li>
       <li class="marca-cliente">Real&nbsp;Planning</li>
@@ -173,8 +173,8 @@
 
       <a class="puerta puerta--b2b" href="#empresas">
         <span class="puerta__num" aria-hidden="true">02</span>
-        <h3 class="puerta__titulo">Una experiencia para mi equipo</h3>
-        <p class="puerta__bajada">Tu equipo arma una banda y graba un tema, sin saber tocar.</p>
+        <h3 class="puerta__titulo">Tu equipo arma una banda sin saber tocar</h3>
+        <p class="puerta__bajada">Ensayan, graban un tema y lo tocan en vivo.</p>
         <span class="puerta__cta">Ver experiencias para equipos <span aria-hidden="true">→</span></span>
       </a>
 
@@ -189,7 +189,7 @@
     <p class="rotulo">Academia · Para vos</p>
     <h2 class="titulo" id="academia-titulo">Empezás tocando <span class="resalte">desde la primera clase.</span></h2>
     <p class="entrada">
-      Clases 1 a 1 para chicos, adolescentes, gente de oficina y CEOs.
+      Clases 1 a 1 para niños, adolescentes, profesionales y directivos.
     </p>
 
     <div class="academia__grilla">
@@ -305,8 +305,7 @@
     <p class="rotulo">Experiencias musicales para equipos</p>
     <h2 class="titulo" id="empresas-titulo">Un equipo sin experiencia <span class="resalte">termina arriba de un escenario.</span></h2>
     <p class="entrada">
-      Nadie mira sentado y nadie tiene que saber tocar: el equipo arma una banda,
-      ensaya y graba un tema.
+      Nadie se queda mirando: ensayan, crean, graban y tocan.
     </p>
 
     <!-- Primero qué se contrata y después la prueba: el de Recursos Humanos tiene
@@ -318,7 +317,7 @@
         <li class="formato">
           <span class="formato__num" aria-hidden="true"><span class="bloque bloque--rojo"></span>1</span>
           <h4>Una charla</h4>
-          <p>Cuento cómo se aprende algo desde cero y lo demuestro ahí mismo, con los instrumentos en la sala.</p>
+          <p>Cada uno descubre cómo se aprende algo desde cero y lo prueba en vivo, con los instrumentos en la sala.</p>
         </li>
         <li class="formato">
           <span class="formato__num" aria-hidden="true"><span class="bloque bloque--naranja"></span>2</span>
@@ -328,17 +327,18 @@
         <li class="formato">
           <span class="formato__num" aria-hidden="true"><span class="bloque bloque--amarillo"></span>3</span>
           <h4>Una banda</h4>
-          <p>Ensayan, graban el tema y lo tocan en vivo.</p>
+          <p>Cada uno se vuelve músico: componen, ensayan, graban y tocan en vivo.</p>
         </li>
       </ol>
 
       <div class="formatos__cierre">
-        <p class="formatos__mientras">Y mientras tocan pasa lo que en un informe se llama liderazgo y trabajo en equipo:</p>
+        <p class="formatos__mientras">Y mientras tocan, pasa lo que en un informe corporativo se llama liderazgo y trabajo en equipo:</p>
         <ul class="temas__lista">
-          <li>Se escuchan antes de hablar</li>
-          <li>Se reparten quién hace qué</li>
-          <li>Sostienen el tiempo del otro</li>
-          <li>Aprenden sin buscar la perfección</li>
+          <li>Se escuchan antes de hablar.</li>
+          <li>Se reparten quién hace qué.</li>
+          <li>Sostienen el tiempo del otro.</li>
+          <li>Aprenden sin buscar la perfección.</li>
+          <li>Se integran y sacan lo mejor de cada uno.</li>
         </ul>
       </div>
     </div>
@@ -365,8 +365,8 @@
       <h3 class="caso__titulo">Mercado Libre, desde 2019</h3>
       <p class="caso__texto">
         Primero a nivel local y después regional, con un programa que adentro de la
-        empresa se llama <b>Rock It</b>. Terminó en una banda que tocó en la fiesta de fin
-        de año y en el teatro Vorterix.
+        empresa se llamó <b>Rock It</b>. Terminó con una banda que tocó en el Teatro
+        Vorterix y en la fiesta de fin de año, y que grabó sus propios covers.
       </p>
       <p class="caso-tarjeta__dato"><b>160</b> empleados de toda la región, según El Cronista</p>
 
@@ -432,6 +432,22 @@
       </div>
 
       <ul class="casos__pista" data-pista tabindex="0" aria-label="Casos, deslizable">
+        <li class="caso-tarjeta" id="caso-accenture" data-nombre="Accenture">
+          <figure class="video-muestra video-muestra--ancho" data-video>
+            <video poster="img/video/accenture-ninez-poster.jpg" preload="none" playsinline
+                   aria-label="La actividad musical online de Accenture por el Día de la niñez, con los chicos y sus familias tocando desde sus casas.">
+              <source src="img/video/accenture-ninez.mp4" type="video/mp4">
+            </video>
+            <button type="button" class="video-muestra__play" data-reproducir>
+              <span class="video-muestra__triangulo" aria-hidden="true"></span>
+              <span class="video-muestra__rotulo">Escuchalo</span>
+            </button>
+          </figure>
+          <div class="caso-tarjeta__texto">
+            <h4>Accenture</h4>
+            <p><b>Día de la niñez.</b> Actividad musical online para colaboradores y sus familias.</p>
+          </div>
+        </li>
         <li class="caso-tarjeta" id="caso-taraborelli" data-nombre="Taraborelli">
           <figure class="caso-tarjeta__fotos">
             <picture class="caso-tarjeta__principal">
@@ -453,22 +469,20 @@
           </div>
         </li>
         <li class="caso-tarjeta" id="caso-liferocks" data-nombre="LifeRocks">
-          <figure class="caso-tarjeta__fotos">
-            <picture class="caso-tarjeta__principal">
-              <source type="image/webp" srcset="img/caso-liferocks-1-700.webp 700w, img/caso-liferocks-1-1200.webp 1200w" sizes="(max-width:760px) 88vw, 46vw">
-              <img src="img/caso-liferocks-1-1200.jpg" width="1200" height="800" alt="Personas tocando guitarra y batería en un bar de paredes de ladrillo." loading="lazy" decoding="async">
-            </picture>
-            <picture class="caso-tarjeta__chica">
-              <source type="image/webp" srcset="img/caso-liferocks-2-700.webp">
-              <img src="img/caso-liferocks-2-1200.jpg" width="700" height="467" alt="Alguien cantando al micrófono junto a un guitarrista." loading="lazy" decoding="async">
-            </picture>
-            <picture class="caso-tarjeta__chica">
-              <source type="image/webp" srcset="img/caso-liferocks-3-700.webp">
-              <img src="img/caso-liferocks-3-1200.jpg" width="700" height="467" alt="La banda completa ensayando en el salón." loading="lazy" decoding="async">
-            </picture>
+          <figure class="video-muestra video-muestra--ancho" data-video>
+            <video poster="img/video/liferocks-01-poster.jpg" preload="none" playsinline
+                   aria-label="La jornada de LifeRocks en el bar, con la banda tocando.">
+              <source src="img/video/liferocks-01.mp4" type="video/mp4">
+            </video>
+            <button type="button" class="video-muestra__play" data-reproducir>
+              <span class="video-muestra__triangulo" aria-hidden="true"></span>
+              <span class="video-muestra__rotulo">Escuchalo</span>
+            </button>
           </figure>
           <div class="caso-tarjeta__texto">
             <h4>LifeRocks</h4>
+            <!-- Falta la línea de contexto que diga qué es LifeRocks: la escribe el
+                 cliente. Va acá, antes de la descripción de la jornada. -->
             <p>En un bar, con batería, amplificadores y micrófono abierto. La jornada que menos se parece a una reunión de trabajo.</p>
           </div>
         </li>
@@ -497,13 +511,13 @@
           </figure>
           <div class="caso-tarjeta__texto">
             <h4>Accelium</h4>
-            <p>El equipo, después de la actividad.</p>
           </div>
         </li>
       </ul>
 
       <nav class="casos__nav" aria-label="Ir a un caso">
-        <button type="button" class="casos__punto" data-ir="caso-taraborelli" aria-current="true">Taraborelli</button>
+        <button type="button" class="casos__punto" data-ir="caso-accenture" aria-current="true">Accenture</button>
+        <button type="button" class="casos__punto" data-ir="caso-taraborelli">Taraborelli</button>
         <button type="button" class="casos__punto" data-ir="caso-liferocks">LifeRocks</button>
         <button type="button" class="casos__punto" data-ir="caso-realplanning">Real Planning</button>
         <button type="button" class="casos__punto" data-ir="caso-accelium">Accelium</button>
@@ -561,25 +575,26 @@
       </div>
       <p class="puntaje__texto">
         <b>44 reseñas en Google.</b>
-        Mis alumnos no escriben que enseño bien guitarra: escriben que les cambié la confianza.
+        Mis alumnos no escriben que enseño bien a tocar. Escriben que ganaron confianza,
+        seguridad y creatividad.
       </p>
     </div>
 
     <div class="resenas">
 
       <blockquote class="resena">
-        <p>Gracias a Juan es que hoy puedo pararme enfrente de millones de personas y no se me va a mover un pelo. Más allá de la música, también me enseñó a confiar en mí.</p>
-        <footer><b>Ema F.</b><span>Alumno · hace 3 meses</span></footer>
+        <p>Más allá de la música, también me enseñó a confiar en mí, a perder la vergüenza y a mostrar mi talento. Hoy puedo pararme enfrente de millones de personas y no se me mueve un pelo.</p>
+        <footer><b>Ema F.</b><span>Diez años con JP · hace 4 meses</span></footer>
       </blockquote>
 
       <blockquote class="resena">
-        <p>Lejos, Juan Pablo es el mejor en su rubro. Mis 3 hijos son alumnos y es muy grato ver cómo disfrutan sus clases y sus avances.</p>
-        <footer><b>Leandro B.</b><span>Papá de tres alumnos · hace 7 meses</span></footer>
+        <p>Logra que cada uno explote al máximo su potencial y, paralelamente, que logren seguridad y confianza en sí mismos.</p>
+        <footer><b>Paula</b><span>Mamá de un alumno · hace 11 meses</span></footer>
       </blockquote>
 
       <blockquote class="resena">
-        <p>Tiene una paciencia para explicarle todo a principiantes. Hace un año que arranqué en sus clases y la verdad me sirvieron un montón.</p>
-        <footer><b>Lautaro M.</b><span>Empezó de cero · hace 7 meses</span></footer>
+        <p>Mi hijo se enganchó desde el primer día. Encontró el espacio que le da la libertad de expresarse y jugar con su creatividad.</p>
+        <footer><b>Lisandro S.</b><span>Papá de un alumno · hace 3 años</span></footer>
       </blockquote>
 
     </div>

@@ -788,13 +788,25 @@ body[data-paleta="b"] .cabecera__tema .ico-luna { display: block; }
 }
 @media (min-width: 760px) { .caso-tarjeta { width: min(46%, 520px); } }
 
+/* Desde que hay tarjetas con video, el collage de fotos va en una caja de alto fijo:
+   si cada tarjeta crece con lo suyo, la fila entera queda del alto de la más alta y
+   debajo de las cortas aparece un hueco. Las fotos ya se recortaban solas. */
+.caso-tarjeta__fotos { aspect-ratio: 4/3; grid-template-rows: 1.55fr 1fr; }
+.caso-tarjeta__fotos:not(:has(.caso-tarjeta__chica)) { grid-template-rows: 1fr; }
+.caso-tarjeta__principal, .caso-tarjeta__chica { min-height: 0; overflow: hidden; }
+@media (max-width: 759px) {
+  /* las fotos chicas no se ven: la caja toma el mismo 16/9 que los videos */
+  .caso-tarjeta__fotos { aspect-ratio: 16/9; grid-template-rows: 1fr; }
+}
+
 .caso-tarjeta__fotos {
   margin: 0;
   display: grid; grid-template-columns: 1fr 1fr; gap: 4px;
 }
 .caso-tarjeta__principal { grid-column: 1 / -1; }
-.caso-tarjeta__principal img { width: 100%; aspect-ratio: 3/2; object-fit: cover; }
-.caso-tarjeta__chica img { width: 100%; aspect-ratio: 4/3; object-fit: cover; }
+.caso-tarjeta__principal img, .caso-tarjeta__chica img {
+  width: 100%; height: 100%; object-fit: cover;
+}
 
 .caso-tarjeta__texto h4 {
   margin: 0 0 6px;
