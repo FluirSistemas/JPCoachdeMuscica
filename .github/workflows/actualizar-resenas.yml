@@ -1,0 +1,45 @@
+# Trae el puntaje y la cantidad de reseñas de la ficha de Google y, si cambiaron, los
+# escribe en index.html y lo publica. Render publica solo con cada push a main.
+#
+# La clave vive en Configuración del repo → Secrets and variables → Actions, como
+# CLAVE_GOOGLE. Nunca en la página: si la consulta saliera del navegador, cada visita
+# sería una llamada facturable y la clave quedaría a la vista de cualquiera.
+#
+# Una vez por semana son cuatro consultas al mes; el SKU Place Details Enterprise
+# —el que trae el puntaje— regala 1.000 por mes. Además Google pide no guardar sus
+# datos más de 30 días sin refrescarlos, así que esta frecuencia nos deja en regla.
+name: Reseñas de Google
+
+on:
+  schedule:
+    - cron: "0 12 * * 1"   # lunes 12:00 UTC, las 9 de la mañana en Buenos Aires
+  workflow_dispatch:       # y cuando se quiera, a mano, desde la pestaña Actions
+
+jobs:
+  actualizar:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Preguntarle a Google y escribir la página
+        env:
+          CLAVE_GOOGLE: ${{ secrets.CLAVE_GOOGLE }}
+        run: python herramientas/actualizar-resenas.py
+
+      - name: Publicar, si cambió algo
+        run: |
+          if git diff --quiet; then
+            echo "La página ya dice lo mismo que la ficha: no hay nada que publicar."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Actualizar el puntaje y la cantidad de reseñas de Google"
+          git push

@@ -1038,6 +1038,9 @@ body[data-paleta="b"] .cabecera__tema .ico-luna { display: block; }
    sola cosa. Es el star solido de Heroicons. */
 .estrellas { display: flex; gap: 2px; }
 .estrellas svg { width: 22px; height: 22px; fill: var(--acento-linea); flex: none; }
+/* Si el puntaje baja de 5, las estrellas que sobran quedan de contorno. Las dibuja
+   la tarea semanal que trae el puntaje de Google (herramientas/actualizar-resenas.py). */
+.estrellas svg.vacia { fill: none; stroke: var(--acento-linea); stroke-width: 1.6; }
 
 /* En los datos duros ocupan el lugar del numero, asi que pesan como el numero */
 .estrellas--dato { gap: 1px; margin-bottom: 3px; }
