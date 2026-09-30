@@ -1,0 +1,5 @@
+# Todo abierto: es una sola página y queremos que se indexe entera.
+User-agent: *
+Allow: /
+
+Sitemap: https://jpcoachdemusica.com/sitemap.xml

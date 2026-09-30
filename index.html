@@ -5,6 +5,24 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>JP Coach de Música — Juan Pablo Granatelli</title>
 <meta name="description" content="Utilizo la música y la experiencia de aprender para desarrollar habilidades humanas y liderazgo. Clases en Buenos Aires y online, y experiencias musicales para equipos.">
+
+<!-- La dirección oficial. El .onrender.com sirve el mismo contenido: sin esto,
+     las dos compiten entre sí en el buscador. -->
+<link rel="canonical" href="https://jpcoachdemusica.com/">
+
+<!-- Cómo se ve el enlace cuando alguien lo comparte por WhatsApp o LinkedIn. -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://jpcoachdemusica.com/">
+<meta property="og:site_name" content="JP Coach de Música">
+<meta property="og:locale" content="es_AR">
+<meta property="og:title" content="JP Coach de Música — Juan Pablo Granatelli">
+<meta property="og:description" content="Liderazgo que se aprende tocando. Clases 1 a 1 en Buenos Aires y online, y experiencias musicales para equipos.">
+<meta property="og:image" content="https://jpcoachdemusica.com/img/compartir.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Juan Pablo Granatelli con su guitarra, junto al nombre JP Coach de Música.">
+<meta name="twitter:card" content="summary_large_image">
+
 <link rel="icon" href="img/logo/jp-isotipo.svg" type="image/svg+xml">
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="icon" href="img/favicon-64.png" type="image/png">
@@ -15,6 +33,88 @@
 <link rel="stylesheet" href="css/estilos.css">
 <!-- Estadísticas y píxel: instalados y apagados hasta completar los IDs en js/medicion.js -->
 <script src="js/medicion.js" defer></script>
+<!-- Ficha para el buscador: lo mismo que se lee en la página, en el formato que
+     Google entiende. Sin aggregateRating: marcar acá el puntaje de reseñas que
+     están en Google va contra sus normas y puede costar una penalización. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "LocalBusiness",
+      "@id": "https://jpcoachdemusica.com/#negocio",
+      "name": "JP Coach de Música",
+      "alternateName": "Juan Pablo Granatelli",
+      "description": "Clases de música 1 a 1 y experiencias musicales para equipos, con foco en liderazgo y habilidades humanas.",
+      "url": "https://jpcoachdemusica.com/",
+      "telephone": "+541150458850",
+      "image": "https://jpcoachdemusica.com/img/compartir.jpg",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Ciudad Autónoma de Buenos Aires",
+        "addressCountry": "AR"
+      },
+      "areaServed": [
+        { "@type": "City", "name": "Buenos Aires" },
+        { "@type": "Country", "name": "Argentina" },
+        { "@type": "Place", "name": "Latinoamérica" },
+        { "@type": "Country", "name": "España" }
+      ],
+      "openingHoursSpecification": [{
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+        "opens": "09:00",
+        "closes": "20:00"
+      }],
+      "founder": { "@id": "https://jpcoachdemusica.com/#jp" },
+      "makesOffer": [
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Clases 1 a 1 de guitarra, teclado, ukelele y bajo",
+            "description": "Para niños, adolescentes, profesionales y directivos. Presencial en Buenos Aires y online."
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Experiencias musicales para equipos",
+            "description": "Una charla, una jornada o una banda: el equipo ensaya, graba y toca un tema, sin saber tocar."
+          }
+        }
+      ],
+      "sameAs": [
+        "https://instagram.com/coachdemusica",
+        "https://www.linkedin.com/in/juanpablogranatelli/",
+        "https://www.youtube.com/channel/UCoEwSkAOer8u7RJeR75bzcA",
+        "https://maps.google.com/?cid=17898451267528406671"
+      ]
+    },
+    {
+      "@type": "Person",
+      "@id": "https://jpcoachdemusica.com/#jp",
+      "name": "Juan Pablo Granatelli",
+      "jobTitle": "Coach de música",
+      "url": "https://jpcoachdemusica.com/",
+      "worksFor": { "@id": "https://jpcoachdemusica.com/#negocio" },
+      "sameAs": [
+        "https://instagram.com/coachdemusica",
+        "https://www.linkedin.com/in/juanpablogranatelli/"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://jpcoachdemusica.com/#sitio",
+      "url": "https://jpcoachdemusica.com/",
+      "name": "JP Coach de Música",
+      "inLanguage": "es-AR",
+      "publisher": { "@id": "https://jpcoachdemusica.com/#negocio" }
+    }
+  ]
+}
+</script>
 </head>
 <body data-paleta="a">
 <!-- Arranca siempre oscura (paleta A). Si en esta visita eligieron el tema claro
