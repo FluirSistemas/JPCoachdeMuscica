@@ -10,10 +10,14 @@
 # datos más de 30 días sin refrescarlos, así que esta frecuencia nos deja en regla.
 name: Reseñas de Google
 
+# La corrida semanal está apagada desde el 30-sep-2026, por decisión de la agencia:
+# la API de Places exige una cuenta de facturación y se prefirió no darla de alta.
+# Para encenderla: cargar el secreto CLAVE_GOOGLE y descomentar las dos líneas del
+# cron. Mientras tanto la tarea sólo corre a mano, desde la pestaña Actions.
 on:
-  schedule:
-    - cron: "0 12 * * 1"   # lunes 12:00 UTC, las 9 de la mañana en Buenos Aires
-  workflow_dispatch:       # y cuando se quiera, a mano, desde la pestaña Actions
+  # schedule:
+  #   - cron: "0 12 * * 1"   # lunes 12:00 UTC, las 9 de la mañana en Buenos Aires
+  workflow_dispatch:
 
 jobs:
   actualizar:
