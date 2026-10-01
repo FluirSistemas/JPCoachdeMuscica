@@ -815,6 +815,10 @@ body[data-paleta="b"] .cabecera__tema .ico-luna { display: block; }
 }
 .caso-tarjeta__texto p { margin: 0 0 var(--xs); font-size: 16px; color: var(--texto-suave); }
 .caso-tarjeta__texto p:last-child { margin-bottom: 0; }
+
+/* La aclaracion de por que una tarjeta no muestra fotos de la actividad va mas
+   chica y mas suave que el texto: aclara, no compite con el caso. */
+.caso-tarjeta__nota { font-size: 15px; opacity: .8; }
 .caso-tarjeta__dato {
   display: inline-block;
   background: var(--acento); color: var(--acento-texto) !important;
