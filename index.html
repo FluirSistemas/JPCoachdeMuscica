@@ -348,7 +348,7 @@
         <li>
           <figure class="video-muestra" data-video>
             <video poster="img/video/muestra-voz-poster.jpg" preload="none" playsinline
-                   aria-label="Una alumna cantando en el escenario, con la banda detrás.">
+                   aria-label="Un alumno cantando en el escenario, con la banda detrás.">
               <source src="img/video/muestra-voz.mp4" type="video/mp4">
             </video>
             <button type="button" class="video-muestra__play" data-reproducir>
@@ -360,7 +360,7 @@
         <li>
           <figure class="video-muestra" data-video>
             <video poster="img/video/muestra-bajo-poster.jpg" preload="none" playsinline
-                   aria-label="Un alumno tocando el bajo durante la muestra.">
+                   aria-label="Un resumen de la muestra en vivo, con varias bandas de alumnos tocando.">
               <source src="img/video/muestra-bajo.mp4" type="video/mp4">
             </video>
             <button type="button" class="video-muestra__play" data-reproducir>
@@ -504,12 +504,13 @@
           </figure>
         </li>
         <li>
-          <!-- El archivo se llama «liferocks-01» porque así viene del material del
-               cliente, pero el video es de acá: JP lo corrigió el 1-oct-2026. En la
-               tarjeta de LifeRocks no pegaba con el texto, que habla del bar. -->
+          <!-- JP pidió mover este video acá el 1-oct-2026: en la tarjeta de LifeRocks
+               no pegaba con el texto, que habla del bar. El archivo conserva el nombre
+               con el que vino del material. Ojo: el video lleva quemado el logo
+               «LIFE ROCKS» y el crédito del pie dice «Material de Mercado Libre». -->
           <figure class="video-muestra video-muestra--ancho" data-video>
             <video poster="img/video/liferocks-01-poster.jpg" preload="none" playsinline
-                   aria-label="El show en vivo: la banda tocando en las pantallas gigantes del escenario, con el público en la sala.">
+                   aria-label="El show: primero la banda en vivo con el público en la sala, después el escenario virtual del programa.">
               <source src="img/video/liferocks-01.mp4" type="video/mp4">
             </video>
             <button type="button" class="video-muestra__play" data-reproducir>
@@ -519,7 +520,7 @@
           </figure>
         </li>
         </ul>
-        <p class="casos__aviso">Material de Mercado Libre.</p>
+        <p class="casos__aviso">Material de Mercado Libre. El show en vivo, registro de LifeRocks.</p>
       </div>
     </div>
 
@@ -535,22 +536,12 @@
       </div>
 
       <ul class="casos__pista" data-pista tabindex="0" aria-label="Casos, deslizable">
-        <li class="caso-tarjeta" id="caso-accenture" data-nombre="Accenture">
-          <figure class="video-muestra video-muestra--ancho" data-video>
-            <video poster="img/video/accenture-ninez-poster.jpg" preload="none" playsinline
-                   aria-label="La actividad musical online de Accenture por el Día de la niñez, con los chicos y sus familias tocando desde sus casas.">
-              <source src="img/video/accenture-ninez.mp4" type="video/mp4">
-            </video>
-            <button type="button" class="video-muestra__play" data-reproducir>
-              <span class="video-muestra__triangulo" aria-hidden="true"></span>
-              <span class="video-muestra__rotulo">Escuchalo</span>
-            </button>
-          </figure>
-          <div class="caso-tarjeta__texto">
-            <h4>Accenture</h4>
-            <p><b>Día de la niñez.</b> Actividad musical online para colaboradores y sus familias.</p>
-          </div>
-        </li>
+        <!-- Accenture tenía su tarjeta acá con el video del Día de la niñez. El
+             1-oct-2026 salieron las dos cosas: el video muestra decenas de menores
+             identificables en sus casas y no hay permiso escrito. Sin material
+             publicable la tarjeta quedaba vacía, con el hueco de las demás. Accenture
+             sigue nombrada en la franja de clientes. Vuelve cuando haya permiso o
+             una foto de esa actividad sin menores. -->
         <li class="caso-tarjeta" id="caso-taraborelli" data-nombre="Taraborelli">
           <figure class="caso-tarjeta__fotos">
             <picture class="caso-tarjeta__principal">
@@ -568,7 +559,7 @@
           </figure>
           <div class="caso-tarjeta__texto">
             <h4>Taraborelli</h4>
-            <p>Un equipo entero en una sala de reunión, sin escenario ni nada: guitarra criolla, bajo, teclado y percusión repartidos entre gente que llegó de traje.</p>
+            <p>Un equipo entero en una sala de reunión, sin escenario ni nada: guitarra criolla, bajo, teclado y percusión repartidos entre gente que llegó derecho de la oficina.</p>
           </div>
         </li>
         <li class="caso-tarjeta" id="caso-liferocks" data-nombre="LifeRocks">
@@ -623,8 +614,7 @@
       </ul>
 
       <nav class="casos__nav" aria-label="Ir a un caso">
-        <button type="button" class="casos__punto" data-ir="caso-accenture" aria-current="true">Accenture</button>
-        <button type="button" class="casos__punto" data-ir="caso-taraborelli">Taraborelli</button>
+        <button type="button" class="casos__punto" data-ir="caso-taraborelli" aria-current="true">Taraborelli</button>
         <button type="button" class="casos__punto" data-ir="caso-liferocks">LifeRocks</button>
         <button type="button" class="casos__punto" data-ir="caso-realplanning">Real Planning</button>
         <button type="button" class="casos__punto" data-ir="caso-accelium">Accelium</button>
