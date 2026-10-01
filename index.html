@@ -503,6 +503,21 @@
             </button>
           </figure>
         </li>
+        <li>
+          <!-- El archivo se llama «liferocks-01» porque así viene del material del
+               cliente, pero el video es de acá: JP lo corrigió el 1-oct-2026. En la
+               tarjeta de LifeRocks no pegaba con el texto, que habla del bar. -->
+          <figure class="video-muestra video-muestra--ancho" data-video>
+            <video poster="img/video/liferocks-01-poster.jpg" preload="none" playsinline
+                   aria-label="El show en vivo: la banda tocando en las pantallas gigantes del escenario, con el público en la sala.">
+              <source src="img/video/liferocks-01.mp4" type="video/mp4">
+            </video>
+            <button type="button" class="video-muestra__play" data-reproducir>
+              <span class="video-muestra__triangulo" aria-hidden="true"></span>
+              <span class="video-muestra__rotulo">Escuchalo</span>
+            </button>
+          </figure>
+        </li>
         </ul>
         <p class="casos__aviso">Material de Mercado Libre.</p>
       </div>
@@ -557,15 +572,19 @@
           </div>
         </li>
         <li class="caso-tarjeta" id="caso-liferocks" data-nombre="LifeRocks">
-          <figure class="video-muestra video-muestra--ancho" data-video>
-            <video poster="img/video/liferocks-01-poster.jpg" preload="none" playsinline
-                   aria-label="La jornada de LifeRocks en el bar, con la banda tocando.">
-              <source src="img/video/liferocks-01.mp4" type="video/mp4">
-            </video>
-            <button type="button" class="video-muestra__play" data-reproducir>
-              <span class="video-muestra__triangulo" aria-hidden="true"></span>
-              <span class="video-muestra__rotulo">Escuchalo</span>
-            </button>
+          <figure class="caso-tarjeta__fotos">
+            <picture class="caso-tarjeta__principal">
+              <source type="image/webp" srcset="img/caso-liferocks-1-700.webp 700w, img/caso-liferocks-1-1200.webp 1200w" sizes="(max-width:760px) 88vw, 46vw">
+              <img src="img/caso-liferocks-1-1200.jpg" width="1200" height="800" alt="Personas tocando guitarra y batería en un bar de paredes de ladrillo." loading="lazy" decoding="async">
+            </picture>
+            <picture class="caso-tarjeta__chica">
+              <source type="image/webp" srcset="img/caso-liferocks-2-700.webp">
+              <img src="img/caso-liferocks-2-1200.jpg" width="700" height="467" alt="Alguien cantando al micrófono junto a un guitarrista." loading="lazy" decoding="async">
+            </picture>
+            <picture class="caso-tarjeta__chica">
+              <source type="image/webp" srcset="img/caso-liferocks-3-700.webp">
+              <img src="img/caso-liferocks-3-1200.jpg" width="700" height="467" alt="La banda completa ensayando en el salón." loading="lazy" decoding="async">
+            </picture>
           </figure>
           <div class="caso-tarjeta__texto">
             <h4>LifeRocks</h4>
