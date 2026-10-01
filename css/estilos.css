@@ -852,6 +852,15 @@ body[data-paleta="b"] .cabecera__tema .ico-luna { display: block; }
   .caso-tarjeta .caso-tarjeta__chica { display: none; }
 }
 
+/* Accenture es la unica tarjeta cuya foto grande no muestra la actividad, sino el
+   cierre de la pieza. Las dos chicas son lo unico que deja ver algo de lo que paso,
+   asi que ahi tambien van en celular. La caja sigue siendo 16/9 como en las demas
+   tarjetas, para que la fila no cambie de alto. */
+@media (max-width: 759px) {
+  #caso-accenture .caso-tarjeta__chica { display: block; }
+  #caso-accenture .caso-tarjeta__fotos { grid-template-rows: 1.55fr 1fr; }
+}
+
 .caso { margin-top: var(--s); }
 .caso__titulo {
   margin: 0 0 var(--xs);
