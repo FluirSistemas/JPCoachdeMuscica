@@ -134,7 +134,7 @@
   aviso.setAttribute('role', 'region');
   aviso.setAttribute('aria-label', 'Aviso de cookies');
   aviso.innerHTML =
-    '<p>Usamos cookies para saber cuánta gente entra a la página y qué mira. ¿Nos dejás medir tu visita?</p>' +
+    '<p>Usamos cookies para mejorar tu experiencia y analizar el tráfico del sitio.</p>' +
     '<div class="aviso-cookies__botones">' +
       '<button type="button" class="boton boton--lleno" data-cookies="aceptado">Aceptar</button>' +
       '<button type="button" class="boton boton--linea" data-cookies="rechazado">Rechazar</button>' +
