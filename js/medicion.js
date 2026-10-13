@@ -20,7 +20,7 @@
 (function () {
   var MEDICION = {
     gtm: '',         // 'GTM-XXXXXXX'
-    ga4: '',         // 'G-XXXXXXXXXX'
+    ga4: 'G-71EKR9TME6',         // 'G-XXXXXXXXXX'
     metaPixel: '',   // '123456789012345'
     // La página ofrece clases online en España: para esas visitas pedir
     // permiso antes de medir es obligatorio.
