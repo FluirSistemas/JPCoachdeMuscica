@@ -22,8 +22,9 @@
     gtm: '',         // 'GTM-XXXXXXX'
     ga4: 'G-71EKR9TME6',         // 'G-XXXXXXXXXX'
     metaPixel: '',   // '123456789012345'
-    // La página ofrece clases online en España: para esas visitas pedir
-    // permiso antes de medir es obligatorio.
+    // La página ofrece clases online en España: para las visitas desde Europa
+    // pedir permiso antes de medir es obligatorio. En el resto se mide desde
+    // el principio y el permiso se cambia con el botón «Cookies» del pie.
     pedirConsentimiento: true
   };
 
@@ -36,11 +37,24 @@
   function eleccionGuardada() {
     try { return localStorage.getItem(CLAVE); } catch (err) { return null; }
   }
-  var permiso = !MEDICION.pedirConsentimiento || eleccionGuardada() === 'aceptado' ? 'granted' : 'denied';
+  /* Europa se reconoce por la zona horaria del dispositivo: no consulta ningún
+     servicio de afuera ni le pide la ubicación al visitante. Si no se puede
+     saber, se pide permiso igual. */
+  function desdeEuropa() {
+    try {
+      var zona = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+      return !zona || /^Europe\/|^Atlantic\/(Canary|Madeira|Azores|Faroe|Reykjavik)$|^Africa\/Ceuta$/.test(zona);
+    } catch (err) { return true; }
+  }
+  var pedirPermiso = MEDICION.pedirConsentimiento && desdeEuropa();
+  var guardada = eleccionGuardada();
+  // lo que ya eligieron con el aviso o el botón del pie manda siempre
+  var permiso = guardada ? (guardada === 'aceptado' ? 'granted' : 'denied')
+    : pedirPermiso ? 'denied' : 'granted';
 
   /* ── Modo de consentimiento ──
-     Va antes de cargar cualquier etiqueta: hasta que acepten, Google no guarda
-     cookies y el píxel no manda nada. */
+     Va antes de cargar cualquier etiqueta: en Europa, hasta que acepten, Google
+     no guarda cookies y el píxel no manda nada. */
   gtag('consent', 'default', {
     ad_storage: permiso, ad_user_data: permiso, ad_personalization: permiso,
     analytics_storage: permiso, wait_for_update: 500
@@ -125,8 +139,9 @@
   }, true);
 
   /* ── Aviso de cookies ──
-     Sólo si la medición está prendida y hay que pedir permiso. Queda un botón
-     «Cookies» en el pie para cambiar la respuesta cuando quieran. */
+     Sólo si la medición está prendida y hay que pedir permiso. Se abre solo en
+     las visitas desde Europa; para todos queda un botón «Cookies» en el pie
+     para cambiar la respuesta cuando quieran. */
   if (!activa || !MEDICION.pedirConsentimiento) return;
 
   var aviso = document.createElement('div');
@@ -139,7 +154,7 @@
       '<button type="button" class="boton boton--lleno" data-cookies="aceptado">Aceptar</button>' +
       '<button type="button" class="boton boton--linea" data-cookies="rechazado">Rechazar</button>' +
     '</div>';
-  aviso.hidden = !!eleccionGuardada();
+  aviso.hidden = !!guardada || !pedirPermiso;
 
   aviso.addEventListener('click', function (e) {
     var boton = e.target.closest('[data-cookies]');
